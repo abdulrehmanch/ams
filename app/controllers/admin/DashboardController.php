@@ -71,5 +71,8 @@ class DashboardController extends AdminController
 
         return View::make('backend/dashboard')->with('asset_stats',$asset_stats)->with('recent_activity',$recent_activity);
     }
+    public function getMap(){
+        return View::make('frontend/map');
+    }
 
 }

@@ -28,7 +28,8 @@
 
 	    <!-- libraries -->
 	    <link rel="stylesheet" href="{{ asset('assets/css/lib/jquery-ui-1.10.2.custom.css') }}" type="text/css">
-	    <link rel="stylesheet" href="{{ asset('assets/css/lib/font-awesome.min.css') }}" type="text/css">
+	    {{--<link rel="stylesheet" href="{{ asset('assets/css/lib/font-awesome.min.css') }}" type="text/css">--}}
+        <link rel="stylesheet" href="{{ asset('//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css') }}" type="text/css">
 	    <link rel="stylesheet" href="{{ asset('assets/css/lib/morris.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ asset('assets/css/lib/select2.css') }}" type="text/css">
         <link rel="stylesheet" href="{{ asset('assets/css/lib/bootstrap.datepicker.css') }}" type="text/css">
@@ -106,7 +107,11 @@
 
     <!-- navbar -->
     <header class="navbar navbar-inverse" role="banner">
-	    <div class="navbar-header">
+        <a target="_blank" href="">
+            <img style="width: 100%;" src="/assets/img/Saaf-Pani-Asset-Banner.png">
+        </a>
+
+        <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" id="menu-toggler">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -118,7 +123,7 @@
 	            @if (Setting::getSettings()->brand == '3')
                     <a class="navbar-brand" href="{{ Config::get('app.url') }}" style="padding: 5px;">
                     <img src="{{ Config::get('app.url') }}/uploads/{{{ Setting::getSettings()->logo }}}">
-                    {{{ Setting::getSettings()->site_name }}}
+                    {{--{{{ Setting::getSettings()->site_name }}}--}}
                     </a>
                 @elseif (Setting::getSettings()->brand == '2')
 	            	<a class="navbar-brand" href="{{ Config::get('app.url') }}" style="padding: 5px;">
@@ -126,7 +131,7 @@
 	            	</a>
 	            @else
 	            	<a class="navbar-brand" href="{{ Config::get('app.url') }}">
-	            	{{{ Setting::getSettings()->site_name }}}
+	            	{{--{{{ Setting::getSettings()->site_name }}}--}}
 	            	</a>
 	            @endif
         </div>
@@ -285,9 +290,15 @@
     <div id="sidebar-nav">
         <ul id="dashboard-menu">
 			@if(Sentry::getUser()->hasAccess('admin'))
-			<li{{ (Request::is('*/') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+
+                <li {{ (Request::is('/') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                <a href="{{URL::to('/') }}"><i class="fa fa-map"></i><span>Maps</span></a>
+                </li>
+
+                <li{{ (Request::is('dashboard') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
                 <a href="{{Config::get('app.url')}}"><i class="fa fa-dashboard"></i><span>@lang('general.dashboard')</span></a>
             </li>
+
             <li{{ (Request::is('hardware*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
                 <a href="{{ URL::to('hardware') }}" class="dropdown-toggle">
                     <i class="fa fa-barcode"></i>
@@ -387,7 +398,7 @@
     <div class="content">
 
         @if ((Sentry::check()) && (Sentry::getUser()->hasAccess('admin')))
-        @if (Request::is('/'))
+        @if (Request::is('dashboard'))
 
         <!-- upper main stats -->
         <div id="main-stats">
@@ -408,22 +419,23 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-3 stat">
-                        <div class="data">
-                            <a href="{{ URL::to('admin/licenses') }}">
-                                <span class="number">{{ number_format(License::assetcount()) }}</span>
-                                <span style="color:black">@lang('general.total_licenses')</span>
-                            </a>
-                        </div>
+                {{--Licences info --}}
+                    {{--<div class="col-md-3 col-sm-3 stat">--}}
+                        {{--<div class="data">--}}
+                            {{--<a href="{{ URL::to('admin/licenses') }}">--}}
+                                {{--<span class="number">{{ number_format(License::assetcount()) }}</span>--}}
+                                {{--<span style="color:black">@lang('general.total_licenses')</span>--}}
+                            {{--</a>--}}
+                        {{--</div>--}}
                     </div>
-                    <div class="col-md-3 col-sm-3 stat last">
-                        <div class="data">
-                            <a href="{{ URL::to('admin/licenses') }}">
-                                <span class="number">{{ number_format(License::availassetcount()) }}</span>
-                                <span style="color:black">@lang('general.licenses_available')</span>
-                            </a>
-                        </div>
-                    </div>
+                    {{--<div class="col-md-3 col-sm-3 stat last">--}}
+                        {{--<div class="data">--}}
+                            {{--<a href="{{ URL::to('admin/licenses') }}">--}}
+                                {{--<span class="number">{{ number_format(License::availassetcount()) }}</span>--}}
+                                {{--<span style="color:black">@lang('general.licenses_available')</span>--}}
+                            {{--</a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                 </div>
 
 
@@ -448,16 +460,16 @@
     <footer>
 
         <div id="footer" class="col-md-offset-2 col-md-9 col-sm-12 col-xs-12 text-center">
-		                <div class="muted credit hidden-xs">
-	                  			<a target="_blank" href="http://snipeitapp.com">Snipe IT</a> is a free open source
-					  		project by
-					  			<a target="_blank" href="http://twitter.com/snipeyhead">@snipeyhead</a>.
-						  		<a target="_blank" href="https://github.com/snipe/snipe-it">Fork it</a> |
-						  		<a target="_blank" href="http://docs.snipeitapp.com/">Documentation</a> |
-						  		<a target="_blank" href="http://docs.snipeitapp.com/translations.html">Translate It! </a> |
-						  		<a target="_blank" href="https://github.com/snipe/snipe-it/issues?state=open">Report a Bug</a>
-						  		 &nbsp; &nbsp; ({{{  Config::get('version.app_version') }}})
-                  		</div>
+		                {{--<div class="muted credit hidden-xs">--}}
+	                  			{{--<a target="_blank" href="http://snipeitapp.com">Snipe IT</a> is a free open source--}}
+					  		{{--project by--}}
+					  			{{--<a target="_blank" href="http://twitter.com/snipeyhead">@snipeyhead</a>.--}}
+						  		{{--<a target="_blank" href="https://github.com/snipe/snipe-it">Fork it</a> |--}}
+						  		{{--<a target="_blank" href="http://docs.snipeitapp.com/">Documentation</a> |--}}
+						  		{{--<a target="_blank" href="http://docs.snipeitapp.com/translations.html">Translate It! </a> |--}}
+						  		{{--<a target="_blank" href="https://github.com/snipe/snipe-it/issues?state=open">Report a Bug</a>--}}
+						  		 {{--&nbsp; &nbsp; ({{  Config::get('version.app_version') }})--}}
+                  		{{--</div>--}}
         </div>
     </footer>
 

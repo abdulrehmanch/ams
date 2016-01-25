@@ -520,7 +520,7 @@
         } );
 
         # Dashboard
-        Route::get( '/', [ 'as' => 'admin', 'uses' => 'DashboardController@getIndex' ] );
+        Route::get( '/dashboard', [ 'as' => 'admin', 'uses' => 'DashboardController@getIndex' ] );
 
     } );
 
@@ -598,7 +598,7 @@
             [ 'as' => 'account/request-asset', 'uses' => 'ViewAssetsController@getRequestAsset' ] );
 
         # Account Dashboard
-        Route::get( '/', [ 'as' => 'account', 'uses' => 'DashboardController@getIndex' ] );
+        Route::get( '/dashboard', [ 'as' => 'account', 'uses' => 'DashboardController@getIndex' ] );
 
     } );
 
@@ -647,5 +647,8 @@
             [ 'as' => 'reports/export/unaccepted_assets', 'uses' => 'ReportsController@exportAssetAcceptanceReport' ] );
     } );
 
-    Route::get( '/',
+    Route::get( '/dashboard',
         [ 'as' => 'home', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@getIndex' ] );
+    # Map Route
+    Route::get( '/',
+    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@getMap' ] );
