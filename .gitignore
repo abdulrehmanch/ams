@@ -2,7 +2,7 @@
 /vendor
 composer.phar
 .DS_Store
-public/packages/*
+
 public/uploads/models/*
 public/uploads/avatars/*
 /app/storage/views/*
