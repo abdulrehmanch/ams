@@ -15,7 +15,7 @@ public/uploads/logo.gif
 public/uploads/logo.png
 .siteflow
 public/assets/.siteflow
-app/config/local/session.php
+
 .couscous
 app/storage/dumps/*
 tests/_support/_generated/*
