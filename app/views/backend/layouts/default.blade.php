@@ -453,9 +453,9 @@
                         @yield('content')
 
                 </div>
+        @yield('map-content')
             </div>
-        </div>
-    </div>
+
 
     <footer>
 
