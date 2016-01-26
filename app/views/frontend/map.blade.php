@@ -11,8 +11,8 @@
 
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-    <div class="col-md-12">
-    <div id="map" style="">
+    {{--<div class="col-md-12">--}}
+    <div id="map" style="height: 500px">
         <script>
                 var map = new L.Map('map', {
                     zoomControl: false,
@@ -37,9 +37,8 @@
                 });
 
         </script>
-            // you could use $(window).load(main);
     </div>
-    </div>
+    {{--</div>--}}
 
 
    @stop

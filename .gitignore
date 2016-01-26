@@ -21,3 +21,7 @@ app/storage/dumps/*
 tests/_support/_generated/*
 tests/_data/scenarios
 public/uploads/assets/*
+
+app/private_uploads/
+app/storage/meta/services.json
+app/storage/sessions/
