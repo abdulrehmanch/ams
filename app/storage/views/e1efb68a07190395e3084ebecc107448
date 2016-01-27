@@ -1,0 +1,67 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+Account Sign in ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+<div class="row header">
+    <div class="col-md-12">
+        <h3>Sign in</h3>
+    </div>
+</div>
+
+<div class="col-md-11 col-md-offset-1">
+
+    <form method="post" action="<?php echo route('signin'); ?>" class="form-horizontal">
+        <!-- CSRF Token -->
+        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
+
+            <!-- username -->
+            <div class="form-group<?php echo $errors->has('username') ? ' has-error' : ''; ?>">
+                <label for="username" class="col-md-2 col-sm-12 control-label">Username</label>
+                    <div class="col-md-5 col-sm-12">
+                        <input class="form-control" type="username" name="username" id="username" value="<?php echo e(Input::old('username')); ?>" />
+                        <?php echo $errors->first('username', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+                    </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group<?php echo $errors->has('password') ? ' has-error' : ''; ?>">
+                <label for="password" class="col-md-2 col-sm-12 control-label">Password</label>
+                    <div class="col-md-5 col-sm-12">
+                        <input class="form-control" type="password" name="password" id="password" value="<?php echo e(Input::old('password')); ?>" />
+                        <?php echo $errors->first('password', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+                    </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-2">
+
+                <div class="col-md-3 col-sm-12 col-xs-12" style="padding-left: 0px;">
+                    <div class="checkbox">
+                        <label>
+                          <?php echo Form::checkbox('remember-me', '1', Input::old('remember-me')); ?> Remember me
+                        </label>
+                    </div>
+                </div>
+
+	    		<div class="col-md-2 col-sm-12 col-xs-12 text-right">
+	                 <button type="submit" class="btn btn-success">Sign in</button>
+	            </div>
+            </div>
+
+    </form>
+</div>
+
+<div class="col-md-6 col-sm-12 col-xs-12 col-md-offset-2 text-right" style="padding-top: 40px; padding-right: 60px">
+      <a href="<?php echo route('forgot-password'); ?>">I forgot my password</a>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

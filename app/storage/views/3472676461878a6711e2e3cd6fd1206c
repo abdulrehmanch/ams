@@ -1,0 +1,171 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo \Illuminate\Support\Facades\Lang::get('general.asset_report'); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+
+<div class="page-header">
+
+    <div class="pull-right">
+        <a href="<?php echo route('reports/export/assets'); ?>" class="btn btn-flat gray pull-right"><i class="fa fa-download icon-white"></i>
+        <?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.dl_csv'); ?></a>
+    </div>
+
+    <h3><?php echo \Illuminate\Support\Facades\Lang::get('general.asset_report'); ?></h3>
+</div>
+
+<div class="row">
+
+<div class="table-responsive">
+      <table
+      name="assetReport"
+      id="table"
+      data-cookie="true"
+      data-click-to-select="true"
+      data-cookie-id-table="assetReportTable">
+
+        <thead>
+            <tr role="row">
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/companies/table.title'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.asset_tag'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.manufacturer'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.model'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('general.model_no'); ?></th>
+            <?php if(Setting::getSettings()->display_asset_name): ?>
+                <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('general.name'); ?></th>
+            <?php endif; ?>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.serial'); ?></th>
+             <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.status'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.purchase_date'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.purchase_cost'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.order'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.supplier'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.checkoutto'); ?></th>
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.location'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach($assets as $asset): ?>
+        <tr>
+            <td><?php echo e(is_null($asset->company) ? '' : $asset->company->name); ?></td>
+            <td><?php echo e($asset->asset_tag); ?></td>
+            <td>
+            <?php if($asset->model->manufacturer): ?>
+                <?php echo e($asset->model->manufacturer->name); ?>
+
+            <?php endif; ?>
+            </td>
+            <td><?php echo e($asset->model->name); ?></td>
+            <td><?php echo e($asset->model->modelno); ?></td>
+            <?php if(Setting::getSettings()->display_asset_name): ?>
+                <td><?php echo e($asset->name); ?></td>
+            <?php endif; ?>
+            <td><?php echo $asset->serial; ?></td>
+            <td>
+
+            <?php if($asset->assetstatus): ?>
+            	<?php echo e($asset->assetstatus->name); ?>
+
+            <?php elseif($asset->assigneduser): ?>
+				<?php echo e($asset->assigneduser->fullName()); ?>
+
+            <?php endif; ?>
+            </td>
+            <td><?php echo e($asset->purchase_date); ?></td>
+            <td class="align-right"><?php echo e(Setting::first()->default_currency); ?>
+
+                <?php echo e(number_format($asset->purchase_cost)); ?>
+
+            </td>
+            <td>
+                <?php if($asset->order_number): ?>
+                    <?php echo e($asset->order_number); ?>
+
+                <?php endif; ?>
+            </td>
+            <td>
+                <?php if($asset->supplier_id): ?>
+                    <a href="<?php echo route('view/supplier', $asset->supplier_id); ?>">
+                    <?php echo e($asset->supplier->name); ?>
+
+                    </a>
+                <?php endif; ?>
+            </td>
+            <td>
+             <?php if($asset->assigneduser): ?>
+            	 <?php if($asset->assigneduser->deleted_at!=''): ?>
+            	 	<del><?php echo e($asset->assigneduser->fullName()); ?></del>
+            	 <?php else: ?>
+            	 	<a href="<?php echo route('view/user', $asset->assigned_to); ?>">
+					<?php echo e($asset->assigneduser->fullName()); ?>
+
+					</a>
+            	 <?php endif; ?>
+
+            <?php endif; ?>
+            </td>
+            <td>
+            <?php if(($asset->assigneduser) && ($asset->assigneduser->userLoc)): ?>
+              <?php echo e($asset->assigneduser->userLoc->name); ?>
+
+            <?php elseif($asset->defaultLoc): ?>
+              <?php echo e($asset->defaultLoc->name); ?>
+
+            <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+</div>
+
+<?php $__env->startSection('moar_scripts'); ?>
+<script src="<?php echo asset('assets/js/bootstrap-table.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/cookie/bootstrap-table-cookie.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/mobile/bootstrap-table-mobile.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/bootstrap-table-export.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/tableExport.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/jquery.base64.js'); ?>"></script>
+<script type="text/javascript">
+    $('#table').bootstrapTable({
+        classes: 'table table-responsive table-no-bordered',
+        undefinedText: '',
+        iconsPrefix: 'fa',
+        showRefresh: true,
+        search: true,
+        pageSize: <?php echo e(Setting::getSettings()->per_page); ?>,
+        pagination: true,
+        sidePagination: 'client',
+        sortable: true,
+        cookie: true,
+        mobileResponsive: true,
+        showExport: true,
+        showColumns: true,
+        exportDataType: 'all',
+        exportTypes: ['csv', 'txt','json', 'xml'],
+        maintainSelected: true,
+        paginationFirstText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.first'); ?>",
+        paginationLastText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.last'); ?>",
+        paginationPreText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.previous'); ?>",
+        paginationNextText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.next'); ?>",
+        pageList: ['10','25','50','100','150','200'],
+        icons: {
+            paginationSwitchDown: 'fa-caret-square-o-down',
+            paginationSwitchUp: 'fa-caret-square-o-up',
+            columns: 'fa-columns',
+            refresh: 'fa-refresh'
+        },
+
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

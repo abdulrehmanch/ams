@@ -1,0 +1,124 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+Your Profile
+<?php $__env->stopSection(); ?>
+
+<?php /* Account page content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="row header">
+
+    <div class="col-md-12">
+        <h3><?php echo \Illuminate\Support\Facades\Lang::get('general.editprofile'); ?></h3>
+    </div>
+</div>
+
+<div class="row form-wrapper">
+
+<?php echo Form::open(['method' => 'POST', 'files' => true, 'class' => 'form-horizontal', 'autocomplete' => 'off']); ?>
+
+    <!-- CSRF Token -->
+    <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
+
+    <!-- First Name -->
+    <div class="form-group <?php echo $errors->has('first_name') ? ' has-error' : ''; ?>">
+        <label for="first_name" class="col-md-2 control-label"><?php echo \Illuminate\Support\Facades\Lang::get('general.first_name'); ?>
+        <i class='fa fa-asterisk'></i></label>
+        </label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="first_name" id="first_name" value="<?php echo e(Input::old('first_name', $user->first_name)); ?>" />
+            <?php echo $errors->first('first_name', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+        </div>
+    </div>
+
+    <!-- Last Name -->
+    <div class="form-group <?php echo $errors->has('last_name') ? ' has-error' : ''; ?>">
+        <label for="last_name" class="col-md-2 control-label"><?php echo \Illuminate\Support\Facades\Lang::get('general.last_name'); ?>
+        <i class='fa fa-asterisk'></i></label>
+        </label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="last_name" id="last_name" value="<?php echo e(Input::old('last_name', $user->last_name)); ?>" />
+            <?php echo $errors->first('last_name', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+        </div>
+    </div>
+
+    <!-- Location -->
+        <div class="form-group <?php echo $errors->has('phone') ? 'error' : ''; ?>">
+            <label class="col-md-2 control-label" for="location_id"><?php echo \Illuminate\Support\Facades\Lang::get('general.location'); ?>
+            <i class='fa fa-asterisk'></i></label>
+            </label>
+            <div class="col-md-5">
+                <div class="field-box">
+                <?php echo Form::select('location_id', $location_list , Input::old('location_id', $user->location_id), array('class'=>'select2', 'style'=>'width:300px')); ?>
+
+                <?php echo $errors->first('location_id', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+                </div>
+            </div>
+        </div>
+
+	<!-- Website URL -->
+    <div class="form-group <?php echo $errors->has('website') ? ' has-error' : ''; ?>">
+        <label for="website" class="col-md-2 control-label"><?php echo \Illuminate\Support\Facades\Lang::get('general.website'); ?></label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="website" id="website" value="<?php echo e(Input::old('website', $user->website)); ?>" />
+            <?php echo $errors->first('website', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+        </div>
+    </div>
+
+    <!-- Gravatar Email -->
+    <div class="form-group <?php echo $errors->has('gravatar') ? ' has-error' : ''; ?>">
+        <label for="gravatar" class="col-md-2 control-label"><?php echo \Illuminate\Support\Facades\Lang::get('general.gravatar_email'); ?>
+         <small>(Private)</small></label>
+        <div class="col-md-5">
+            <input class="form-control" type="text" name="gravatar" id="gravatar" value="<?php echo e(Input::old('gravatar', $user->gravatar)); ?>" />
+            <?php echo $errors->first('gravatar', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+            <p><img src="//secure.gravatar.com/avatar/<?php echo md5(strtolower(trim($user->gravatar))); ?>" width="30" height="30" />
+            <a href="http://gravatar.com"><small>Change your avatar at Gravatar.com</small></a>.
+        </p>
+        </div>
+    </div>
+
+	<!-- Avatar -->
+    <?php if($user->avatar): ?>
+        <div class="form-group <?php echo $errors->has('avatar_delete') ? 'has-error' : ''; ?>">
+            <label class="col-md-2 control-label" for="avatar_delete"><?php echo \Illuminate\Support\Facades\Lang::get('general.avatar_delete'); ?></label>
+            <div class="col-md-5">
+                <?php echo Form::checkbox('avatar_delete'); ?>
+
+                <img src="/uploads/avatars/<?php echo e($user->avatar); ?>" class="avatar img-circle">
+                <?php echo $errors->first('avatar_delete', '<br><span class="alert-msg">:message</span>'); ?>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
+	<div class="form-group <?php echo $errors->has('avatar') ? 'has-error' : ''; ?>">
+		<label class="col-md-2 control-label" for="avatar"><?php echo \Illuminate\Support\Facades\Lang::get('general.avatar_upload'); ?></label>
+		<div class="col-md-5">
+			<?php echo Form::file('avatar'); ?>
+
+			<?php echo $errors->first('avatar', '<br><span class="alert-msg">:message</span>'); ?>
+
+		</div>
+	</div>
+
+    <!-- Form Actions -->
+    <div class="form-group">
+        <label class="col-md-2 control-label"></label>
+        <div class="col-md-7">
+            <a class="btn btn-link" href="<?php echo route('home'); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('button.cancel'); ?></a>
+            <button type="submit" class="btn btn-success"><i class="fa fa-ok icon-white"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.save'); ?></button>
+        </div>
+    </div>
+
+
+
+</form>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,129 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo \Illuminate\Support\Facades\Lang::get('general.activity_report'); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+
+<div class="page-header">
+
+    <h3><?php echo \Illuminate\Support\Facades\Lang::get('general.activity_report'); ?></h3>
+</div>
+
+
+<div class="row">
+
+<div class="table-responsive">
+      <table
+      name="activityReport"
+      id="table"
+      data-cookie="true"
+      data-click-to-select="true"
+      data-cookie-id-table="activityReportTable">
+
+        <thead>
+            <tr role="row">
+            <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('general.admin'); ?></th>
+            <th class="col-sm-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.action'); ?></th>
+            <th class="col-sm-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.type'); ?></th>
+            <th class="col-sm-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.item'); ?></th>
+            <th class="col-sm-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.user'); ?></th>
+            <th class="col-sm-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.date'); ?></th
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach($log_actions as $log_action): ?>
+        <tr>
+            <td><a href="../admin/users/<?php echo $log_action->adminlog->id; ?>/view"><?php echo e($log_action->adminlog->fullName()); ?></a></td>
+            <td><?php echo e($log_action->action_type); ?></td>
+            <td>
+	            <?php if($log_action->asset_type=="hardware"): ?>
+	            	Asset
+	            <?php elseif($log_action->asset_type=="software"): ?>
+	            	License
+	            <?php elseif($log_action->asset_type=="accessory"): ?>
+	            	Accessory
+                <?php elseif($log_action->asset_type=="consumable"): ?>
+    	            Consumable
+	            <?php endif; ?>
+            </td>
+
+            <td>
+            <?php if(($log_action->assetlog) && ($log_action->asset_type=="hardware")): ?>
+                 <?php echo $log_action->assetlog->showAssetName(); ?>
+
+             <?php elseif(($log_action->licenselog) && ($log_action->asset_type=="software")): ?>
+                 <?php echo $log_action->licenselog->name; ?>
+
+             <?php elseif(($log_action->consumablelog) && ($log_action->asset_type=="consumable")): ?>
+                 <?php echo $log_action->consumablelog->name; ?>
+
+             <?php elseif(($log_action->accessorylog) && ($log_action->asset_type=="accessory")): ?>
+                 <?php echo $log_action->accessorylog->name; ?>
+
+             <?php else: ?>
+                 <?php echo \Illuminate\Support\Facades\Lang::get('general.bad_data'); ?>
+             <?php endif; ?>
+            </td>
+            <td>
+	            <?php if($log_action->userlog): ?>
+	            	<a href="../admin/users/<?php echo $log_action->userlog->id; ?>/view"><?php echo e($log_action->userlog->fullName()); ?></a>
+	            <?php endif; ?>
+            </td>
+
+            <td><?php echo e($log_action->created_at); ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+</div>
+
+<?php $__env->startSection('moar_scripts'); ?>
+<script src="<?php echo asset('assets/js/bootstrap-table.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/cookie/bootstrap-table-cookie.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/mobile/bootstrap-table-mobile.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/bootstrap-table-export.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/tableExport.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/jquery.base64.js'); ?>"></script>
+<script type="text/javascript">
+    $('#table').bootstrapTable({
+        classes: 'table table-responsive table-no-bordered',
+        undefinedText: '',
+        iconsPrefix: 'fa',
+        showRefresh: true,
+        search: true,
+        pageSize: <?php echo e(Setting::getSettings()->per_page); ?>,
+        pagination: true,
+        sidePagination: 'client',
+        sortable: true,
+        cookie: true,
+        mobileResponsive: true,
+        showExport: true,
+        showColumns: true,
+        exportDataType: 'all',
+        exportTypes: ['csv', 'txt','json', 'xml'],
+        maintainSelected: true,
+        paginationFirstText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.first'); ?>",
+        paginationLastText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.last'); ?>",
+        paginationPreText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.previous'); ?>",
+        paginationNextText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.next'); ?>",
+        pageList: ['10','25','50','100','150','200'],
+        icons: {
+            paginationSwitchDown: 'fa-caret-square-o-down',
+            paginationSwitchUp: 'fa-caret-square-o-up',
+            columns: 'fa-columns',
+            refresh: 'fa-refresh'
+        },
+
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

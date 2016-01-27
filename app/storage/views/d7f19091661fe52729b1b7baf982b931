@@ -1,0 +1,163 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+    <?php if($category->id): ?>
+        <?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.update'); ?> ::
+    <?php else: ?>
+        <?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.create'); ?> ::
+    <?php endif; ?>
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+
+<div class="row header">
+    <div class="col-md-12">
+        <a href="<?php echo URL::previous(); ?>" class="btn-flat gray pull-right"><i class="fa fa-arrow-left icon-white"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.back'); ?></a>
+        <h3>
+        <?php if($category->id): ?>
+            <?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.update'); ?>
+        <?php else: ?>
+            <?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.create'); ?>
+        <?php endif; ?>
+</h3>
+    </div>
+</div>
+
+<div class="user-profile">
+<div class="row profile">
+<div class="col-md-9 bio">
+
+                        <form class="form-horizontal" method="post" action="" autocomplete="off">
+                        <!-- CSRF Token -->
+                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>" />
+
+                        <!-- Name -->
+                        <div class="form-group <?php echo $errors->has('name') ? ' has-error' : ''; ?>">
+	                        <div class="col-md-3">
+	                        	<?php echo Form::label('name', Lang::get('admin/categories/general.category_name')); ?>
+
+	                        	<i class='fa fa-asterisk'></i>
+	                        </div>                        
+                            <div class="col-md-9">
+                                <input class="form-control" type="text" name="name" id="name" value="<?php echo e(Input::old('name', $category->name)); ?>" />
+                                <?php echo $errors->first('name', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+                            </div>
+                        </div>
+                        
+                        <!-- Type -->
+			            <div class="form-group <?php echo $errors->has('category_type') ? ' has-error' : ''; ?>">
+				            <div class="col-md-3">
+			               	<?php echo Form::label('category_type', Lang::get('general.type')); ?>
+
+			               	<i class='fa fa-asterisk'></i>
+				            </div>
+			                <div class="col-md-7">				                
+			                    <?php echo Form::select('category_type', $category_types , Input::old('category_type', $category->category_type), array('class'=>'select2', 'style'=>'min-width:350px')); ?>
+
+			                    <?php echo $errors->first('category_type', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>'); ?>
+
+			                </div>
+			            </div>
+                        						
+						 <!-- EULA text -->
+						<div class="form-group <?php echo $errors->has('eula_text') ? 'error' : ''; ?>">
+	                        <div class="col-md-3">
+	                        	<?php echo Form::label('eula_text', Lang::get('admin/categories/general.eula_text')); ?>
+
+	                        </div>
+	                        <div class="col-md-9">
+								<?php echo Form::textarea('eula_text', Input::old('eula_text', $category->eula_text), array('class' => 'form-control')); ?>
+
+								<p class="help-block"><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.eula_text_help'); ?> </p>
+								<p class="help-block"><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.eula_markdown'); ?> </p>
+								
+								<?php echo $errors->first('eula_text', '<br><span class="alert-msg">:message</span>'); ?>						
+	                        </div>
+                    	</div>
+                        
+                         <!-- Use default checkbox -->     	
+                    	<div class="checkbox col-md-offset-3">
+							<label>
+							
+								 <?php if(Setting::getSettings()->default_eula_text!=''): ?>
+								 	<?php echo Form::checkbox('use_default_eula', '1', Input::old('use_default_eula', $category->use_default_eula)); ?>
+
+								 	<?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.use_default_eula'); ?>
+		                         <?php else: ?>
+		                         	<?php echo Form::checkbox('use_default_eula', '0', Input::old('use_default_eula'), array('disabled' => 'disabled')); ?>
+
+		                         	<?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.use_default_eula_disabled'); ?>
+		                         <?php endif; ?>
+								 	
+							</label>
+						</div>
+						
+						 <!-- Require Acceptance -->
+                        <div class="checkbox col-md-offset-3">
+							<label>
+								<?php echo Form::checkbox('require_acceptance', '1', Input::old('require_acceptance', $category->require_acceptance)); ?>
+
+								<?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.require_acceptance'); ?>
+							</label>
+						</div>
+						
+						<!-- Email on Checkin -->
+                        <div class="checkbox col-md-offset-3">
+                            <label>
+                                <?php echo Form::checkbox('checkin_email', '1', Input::old('checkin_email', $category->checkin_email)); ?>
+
+                                <?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.checkin_email'); ?>
+                            </label>
+                        </div>
+
+
+						<hr>
+                        <!-- Form actions -->
+                        <div class="form-group">
+                       
+                            <div class="col-md-7 col-md-offset-3">
+                                <a class="btn btn-link" href="<?php echo URL::previous(); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('button.cancel'); ?></a>
+                                <button type="submit" class="btn btn-success"><i class="fa fa-check icon-white"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.save'); ?></button>
+                            </div>
+                        </div>
+                    </form>
+                    <br><br><br><br><br>
+                    </div>
+
+                    <!-- side address column -->
+                    <div class="col-md-3 col-xs-12 address pull-right">
+                        <br /><br />
+                        <h6><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.about_asset_categories'); ?></h6>
+                        <p><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.about_categories'); ?> </p>
+
+                    </div>
+</div>
+</div>
+
+<?php if(Setting::getSettings()->default_eula_text!=''): ?>
+<!-- Modal -->
+<div class="modal fade" id="eulaModal" tabindex="-1" role="dialog" aria-labelledby="eulaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="eulaModalLabel"><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.default_eula_text'); ?></h4>
+      </div>
+      <div class="modal-body">
+        <?php echo Setting::getDefaultEula(); ?>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo \Illuminate\Support\Facades\Lang::get('button.cancel'); ?></button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

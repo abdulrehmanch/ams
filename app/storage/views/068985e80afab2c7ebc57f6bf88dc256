@@ -1,0 +1,385 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.view'); ?>
+ - <?php echo e($license->name); ?>
+
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+<div class="row header">
+    <div class="col-md-12">
+        <div class="btn-group pull-right">
+            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><?php echo \Illuminate\Support\Facades\Lang::get('button.actions'); ?>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="<?php echo route('update/license', $license->id); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.edit'); ?></a></li>
+                <li><a href="<?php echo route('clone/license', $license->id); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.clone'); ?></a></li>
+            </ul>
+        </div>
+       <h3 class="name"><?php echo \Illuminate\Support\Facades\Lang::get('general.history_for'); ?>
+       <?php echo e($license->name); ?></h3>
+    </div>
+</div>
+
+<div class="user-profile ">
+<div class="row profile">
+<div class="col-md-9 bio">
+
+<?php if(!is_null($license->company)): ?>
+    <div class="col-md-12 col-sm-12" style="padding-bottom: 10px; margin-left: 15px; word-wrap: break-word;">
+        <strong><?php echo \Illuminate\Support\Facades\Lang::get('general.company'); ?>: </strong>
+        <?php echo e($license->company->name); ?>
+
+    </div>
+<?php endif; ?>
+
+<?php if($license->serial): ?>
+	<div class="col-md-12 col-sm-12" style="padding-bottom: 10px; margin-left: 15px; word-wrap: break-word;">
+	<strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.serial'); ?>: </strong>
+	<?php echo nl2br($license->serial); ?>
+
+	</div>
+<?php endif; ?>
+
+<div class="col-md-12" style="padding-bottom: 20px">
+
+<?php if($license->license_name): ?>
+<div class="col-md-6" style="padding-bottom: 5px"><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.to_name'); ?>: </strong>
+<?php echo e($license->license_name); ?> </div>
+<?php endif; ?>
+
+<?php if($license->license_email): ?>
+<div class="col-md-6" style="padding-bottom: 5px"><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.to_email'); ?>: </strong>
+<?php echo e($license->license_email); ?> </div>
+<?php endif; ?>
+
+<?php if($license->supplier_id): ?>
+    <div class="col-md-6" style="padding-bottom: 5px"><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.supplier'); ?>: </strong>
+    <a href="<?php echo route('view/supplier', $license->supplier_id); ?>">
+    <?php echo e($license->supplier->name); ?>
+
+    </a> </div>
+<?php endif; ?>
+
+<?php if($license->expiration_date > 0): ?>
+<div class="col-md-6" style="padding-bottom: 5px"><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.expiration'); ?>: </strong>
+<?php echo e($license->expiration_date); ?> </div>
+<?php endif; ?>
+
+
+ <?php if($license->depreciation): ?>
+	<div class="col-md-6" style="padding-bottom: 5px">
+	<strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.depreciation'); ?>: </strong>
+	<?php echo e($license->depreciation->name); ?>
+
+		(<?php echo e($license->depreciation->months); ?>
+
+		<?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.months'); ?>
+		)
+	</div>
+
+	<div class="col-md-6" style="padding-bottom: 5px">
+		<strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.depreciates_on'); ?>: </strong>
+		<?php echo e($license->depreciated_date()->format("Y-m-d")); ?>
+
+	</div>
+
+	<div class="col-md-6" style="padding-bottom: 5px">
+		<strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.fully_depreciated'); ?>: </strong>
+        <?php if($license->time_until_depreciated()->y > 0): ?>
+            <?php echo e($license->time_until_depreciated()->y); ?>
+
+            <?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.years'); ?>,
+        <?php endif; ?>
+		<?php echo e($license->time_until_depreciated()->m); ?>
+
+		<?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.months'); ?>
+
+	 </div>
+<?php endif; ?>
+
+</div>
+
+
+<div class="col-md-12" style="padding-top: 60px;">
+                <!-- checked out assets table -->
+                <h6><?php echo $license->seats; ?> <?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.license_seats'); ?></h6>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.seat'); ?></th>
+                             <th class="col-md-2"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.user'); ?></th>
+                             <th class="col-md-4"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.asset'); ?></th>
+                             <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php $count=1; ?>
+                        <?php if($license->licenseseats): ?>
+                            <?php foreach($license->licenseseats as $licensedto): ?>
+
+                            <tr>
+                                <td>Seat <?php echo $count; ?> </td>
+                                <td>
+                                    <?php if(($licensedto->assigned_to) && ($licensedto->deleted_at == NULL)): ?>
+                                        <a href="<?php echo route('view/user', $licensedto->assigned_to); ?>">
+                                    <?php echo e($licensedto->user->fullName()); ?>
+
+                                    </a>
+                                    <?php elseif(($licensedto->assigned_to) && ($licensedto->deleted_at != NULL)): ?>
+                                        <del><?php echo e($licensedto->user->fullName()); ?></del>
+                                    <?php elseif($licensedto->asset_id): ?>
+                                        <?php if($licensedto->asset->assigned_to != 0): ?>
+                                            <a href="<?php echo route('view/user', $licensedto->asset->assigned_to); ?>">
+                                                <?php echo e($licensedto->asset->assigneduser->fullName()); ?>
+
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if($licensedto->asset_id): ?>
+                                        <a href="<?php echo route('view/hardware', $licensedto->asset_id); ?>">
+                                        <?php echo e($licensedto->asset->name); ?> <?php echo e($licensedto->asset->asset_tag); ?>
+
+                                    </a>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if(($licensedto->assigned_to) || ($licensedto->asset_id)): ?>
+                                        <?php if($license->reassignable): ?>
+                                            <a href="<?php echo route('checkin/license', $licensedto->id); ?>" class="btn btn-primary btn-sm">
+                                            <?php echo \Illuminate\Support\Facades\Lang::get('general.checkin'); ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span>Assigned</span>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="<?php echo route('checkout/license', $licensedto->id); ?>" class="btn btn-info btn-sm">
+                                        <?php echo \Illuminate\Support\Facades\Lang::get('general.checkout'); ?></a>
+                                    <?php endif; ?>
+                                </td>
+
+                            </tr>
+                            <?php $count++; ?>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+
+
+                    </tbody>
+                </table>
+</div>
+
+<div class="col-md-12">
+
+
+ 	<h6><?php echo \Illuminate\Support\Facades\Lang::get('general.file_uploads'); ?> [ <a href="#" data-toggle="modal" data-target="#uploadFileModal"><?php echo \Illuminate\Support\Facades\Lang::get('button.add'); ?></a> ]</h6>
+
+
+ 	<table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-5"><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.notes'); ?></th>
+                            <th class="col-md-5"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.file_name'); ?></th>
+                            <th class="col-md-2"></th>
+                            <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($license->uploads) > 0): ?>
+							<?php foreach($license->uploads as $file): ?>
+							<tr>
+								<td>
+									<?php if($file->note): ?> <?php echo e($file->note); ?>
+
+									<?php endif; ?>
+								</td>
+								<td>
+								<?php echo e($file->filename); ?>
+
+								</td>
+								<td>
+									<?php if($file->filename): ?>
+									<a href="<?php echo route('show/licensefile', [$license->id, $file->id]); ?>" class="btn btn-default">Download</a>
+									<?php endif; ?>
+								</td>
+								<td>
+									<a class="btn delete-asset btn-danger btn-sm" href="<?php echo route('delete/licensefile', [$license->id, $file->id]); ?>" data-content="Are you sure you wish to delete this file?" data-title="Delete <?php echo e($file->filename); ?>?"><i class="fa fa-trash icon-white"></i></a>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<tr>
+								<td colspan="4">
+									<?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+								</td>
+							</tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+        </table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="uploadFileModalLabel">Upload File</h4>
+      </div>
+      <?php echo Form::open([
+      'method' => 'POST',
+      'route' => ['upload/license', $license->id],
+      'files' => true, 'class' => 'form-horizontal' ]); ?>
+
+      <div class="modal-body">
+
+		<p><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.filetype_info'); ?></p>
+
+		 <div class="form-group col-md-12">
+		 <div class="input-group col-md-12">
+		 	<input class="col-md-12 form-control" type="text" name="notes" id="notes" placeholder="Notes">
+		</div>
+		</div>
+		<div class="form-group col-md-12">
+		 <div class="input-group col-md-12">
+			<?php echo Form::file('licensefile[]', ['multiple' => 'multiple']); ?>
+
+		</div>
+		</div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo \Illuminate\Support\Facades\Lang::get('button.cancel'); ?></button>
+        <button type="submit" class="btn btn-primary btn-sm"><?php echo \Illuminate\Support\Facades\Lang::get('button.upload'); ?></button>
+      </div>
+      <?php echo Form::close(); ?>
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-md-12">
+                <h6><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.checkout_history'); ?></h6>
+
+                <table class="table table-hover table-fixed break-word">
+                    <thead>
+                        <tr>
+                            <th class="col-md-3"><?php echo \Illuminate\Support\Facades\Lang::get('general.date'); ?></th>
+                            <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.admin'); ?></th>
+                            <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('button.actions'); ?></th>
+                            <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/general.user'); ?></th>
+                            <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.notes'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if(count($license->assetlog) > 0): ?>
+                        <?php foreach($license->assetlog as $log): ?>
+                        <tr>
+                            <td><?php echo $log->created_at; ?></td>
+                            <td>
+                                <?php if(isset($log->user_id)): ?>
+                                <?php echo e($log->adminlog->fullName()); ?>
+
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo $log->action_type; ?></td>
+
+                            <td>
+                                <?php if(($log->userlog) && ($log->userlog->id!='0')): ?>
+                                <a href="<?php echo route('view/user', $log->checkedout_to); ?>">
+                                <?php echo e($log->userlog->fullName()); ?>
+
+                                </a>
+
+                                <?php elseif($log->action_type=='uploaded'): ?>
+
+                                		<?php echo $log->filename; ?>
+
+
+                                <?php endif; ?>
+
+                            </td>
+                            <td>
+                                <?php if($log->note): ?> <?php echo e($log->note); ?>
+
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        <tr>
+                            <td><?php echo e($license->created_at); ?></td>
+                            <td>
+                            <?php if($license->adminuser): ?> <?php echo e($license->adminuser->fullName()); ?>
+
+                            <?php else: ?>
+                            <?php echo \Illuminate\Support\Facades\Lang::get('general.unknown_admin'); ?>
+                            <?php endif; ?>
+                            </td>
+                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.created_asset'); ?></td>
+                            <td></td>
+                            <td>
+                            <?php if($license->notes): ?>
+                            <?php echo e($license->notes); ?>
+
+                            <?php endif; ?>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
+</div>
+        <!-- side address column -->
+        <div class="col-md-3 col-xs-12 address pull-right">
+        <h6><br><?php echo \Illuminate\Support\Facades\Lang::get('general.moreinfo'); ?>:</h6>
+                <ul>
+                    <?php if($license->purchase_order): ?>
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.purchase_order'); ?>:</strong>
+                    <?php echo e($license->purchase_order); ?> </li>
+                    <?php endif; ?>
+                    <?php if($license->purchase_date > 0): ?>
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.date'); ?>:</strong>
+                    <?php echo e($license->purchase_date); ?> </li>
+                    <?php endif; ?>
+                    <?php if($license->purchase_cost > 0): ?>
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.cost'); ?>:</strong>
+                    <?php echo e(Setting::first()->default_currency); ?>
+
+                    <?php echo e(number_format($license->purchase_cost,2)); ?> </li>
+                    <?php endif; ?>
+                    <?php if($license->order_number): ?>
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.order'); ?>:</strong>
+                    <?php echo e($license->order_number); ?> </li>
+                    <?php endif; ?>
+                    <?php if(($license->seats) && ($license->seats) > 0): ?>
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.seats'); ?>:</strong>
+                    <?php echo e($license->seats); ?> </li>
+                    <?php endif; ?>
+
+                    <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.reassignable'); ?>:</strong>
+                                <?php echo $license->reassignable ? 'Yes' : 'No'; ?>
+
+                    </li>
+
+                    <?php if($license->notes): ?>
+                    	 <li><strong><?php echo \Illuminate\Support\Facades\Lang::get('admin/licenses/form.notes'); ?>:</strong>
+                        <li class="break-word"><?php echo nl2br(e($license->notes)); ?></li>
+                    <?php endif; ?>
+                </ul>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

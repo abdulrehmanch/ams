@@ -1,0 +1,134 @@
+<?php
+use Carbon\Carbon;
+?>
+
+
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+    <?php echo \Illuminate\Support\Facades\Lang::get('general.asset_maintenance_report'); ?> ::
+    @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+    <div class="page-header">
+        <h3><?php echo \Illuminate\Support\Facades\Lang::get('general.asset_maintenance_report'); ?></h3>
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+             <table
+             name="maintenancesReport"
+             id="table"
+             data-cookie="true"
+             data-click-to-select="true"
+             data-cookie-id-table="maintenancesReportTable">
+
+                <thead>
+                    <tr role="row">
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/companies/table.title'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/table.asset_name'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/table.supplier_name'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.asset_maintenance_type'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.title'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.start_date'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.completion_date'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.asset_maintenance_time'); ?></th>
+                        <th class="col-sm-1"><?php echo \Illuminate\Support\Facades\Lang::get('admin/asset_maintenances/form.cost'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    $totalDays = 0;
+                    $totalCost = 0;
+                ?>
+                <?php foreach($assetMaintenances as $assetMaintenance): ?>
+                    <tr>
+                        <td><?php echo e(is_null($assetMaintenance->asset->company) ? '' : $assetMaintenance->asset->company->name); ?></td>
+                        <td><?php echo e($assetMaintenance->asset->name); ?></td>
+                        <td><?php echo e($assetMaintenance->supplier->name); ?></td>
+                        <td><?php echo e($assetMaintenance->asset_maintenance_type); ?></td>
+                        <td><?php echo e($assetMaintenance->title); ?></td>
+                        <td><?php echo e($assetMaintenance->start_date); ?></td>
+                        <td><?php echo e(is_null($assetMaintenance->completion_date) ? Lang::get('admin/asset_maintenances/message.asset_maintenance_incomplete') : $assetMaintenance->completion_date); ?></td>
+                        <?php if(is_null($assetMaintenance->asset_maintenance_time)): ?>
+                            <?php
+                                $assetMaintenanceTime = intval(Carbon::now()->diffInDays(Carbon::parse($assetMaintenance->start_date)));
+                            ?>
+                        <?php else: ?>
+                            <?php
+                                $assetMaintenanceTime = intval($assetMaintenance->asset_maintenance_time);
+                            ?>
+                        <?php endif; ?>
+                        <td><?php echo e($assetMaintenanceTime); ?></td>
+                        <td>
+                          <?php echo e(Setting::first()->default_currency); ?>
+
+                          <?php echo number_format($assetMaintenance->cost,2); ?>
+
+                        </td>
+                    </tr>
+                    <?php
+                        $totalDays += $assetMaintenanceTime;
+                        $totalCost += floatval($assetMaintenance->cost);
+                    ?>
+                <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" align="right"><strong>Totals:</strong></td>
+                        <td><?php echo number_format($totalDays); ?></td>
+                        <td>
+                          <?php echo e(Setting::first()->default_currency); ?>
+
+                          <?php echo number_format($totalCost,2); ?>
+
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+<?php $__env->startSection('moar_scripts'); ?>
+<script src="<?php echo asset('assets/js/bootstrap-table.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/cookie/bootstrap-table-cookie.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/mobile/bootstrap-table-mobile.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/bootstrap-table-export.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/tableExport.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/jquery.base64.js'); ?>"></script>
+<script type="text/javascript">
+  $('#table').bootstrapTable({
+      classes: 'table table-responsive table-no-bordered',
+      undefinedText: '',
+      iconsPrefix: 'fa',
+      showRefresh: true,
+      search: true,
+      pageSize: <?php echo e(Setting::getSettings()->per_page); ?>,
+      pagination: true,
+      sidePagination: 'client',
+      sortable: true,
+      cookie: true,
+      mobileResponsive: true,
+      showExport: true,
+      showColumns: true,
+      exportDataType: 'all',
+      exportTypes: ['csv', 'txt','json', 'xml'],
+      maintainSelected: true,
+      paginationFirstText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.first'); ?>",
+      paginationLastText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.last'); ?>",
+      paginationPreText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.previous'); ?>",
+      paginationNextText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.next'); ?>",
+      pageList: ['10','25','50','100','150','200'],
+      icons: {
+          paginationSwitchDown: 'fa-caret-square-o-down',
+          paginationSwitchUp: 'fa-caret-square-o-up',
+          columns: 'fa-columns',
+          refresh: 'fa-refresh'
+      },
+
+  });
+</script>
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

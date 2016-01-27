@@ -1,0 +1,16 @@
+Source: php-tecnickcom-tc-lib-color
+Maintainer: Nicola Asuni <info@tecnick.com>
+Section: php
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: https://github.com/tecnickcom/tc-lib-color
+Vcs-Git: https://github.com/tecnickcom/tc-lib-color.git
+
+Package: php-tecnickcom-tc-lib-color
+Provides: php-tc-lib-color
+Architecture: all
+Depends: php5 (>= 5.3.3)
+Description: PHP Color library
+ This library includes PHP classes to parse and manipulate
+ various colors representations GRAY, RGB, HSL, CMYK.

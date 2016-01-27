@@ -1,0 +1,94 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.asset_categories'); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+<div class="row header">
+    <div class="col-md-12">
+        <a href="<?php echo route('create/category'); ?>" class="btn btn-success pull-right"><i class="fa fa-plus icon-white"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.create'); ?></a>
+        <h3><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.asset_categories'); ?></h3>
+    </div>
+</div>
+
+<div class="user-profile">
+	<div class="row profile">
+		<div class="col-md-9 bio">
+		<table
+            name="categories"
+            id="table"
+            data-url="<?php echo route('api.categories.list'); ?>"
+            data-cookie="true"
+            data-click-to-select="true"
+            data-cookie-id-table="categoriesTable-<?php echo Config::get('version.hash_version'); ?>">
+		        <thead>
+		            <tr>
+                    <th data-sortable="true" data-field="id" data-visible="false"><?php echo \Illuminate\Support\Facades\Lang::get('general.id'); ?></th>
+		                <th data-sortable="true" data-field="name"><?php echo Lang::get('admin/categories/table.title'); ?></th>
+		                <th data-sortable="true" data-field="category_type"><?php echo Lang::get('general.type'); ?></th>
+		                <th data-searchable="false" data-sortable="false" data-field="count"><?php echo Lang::get('general.assets'); ?></th>
+		                <th data-searchable="false" data-sortable="true" data-field="acceptance"><?php echo Lang::get('admin/categories/table.require_acceptance'); ?></th>
+		                <th data-searchable="false" data-sortable="true" data-field="eula"><?php echo Lang::get('admin/categories/table.eula_text'); ?></th>
+		                <th data-switchable="false" data-searchable="false" data-sortable="false" data-field="actions"><?php echo Lang::get('table.actions'); ?></th>
+		            </tr>
+		        </thead>
+		    </table>
+    	</div>
+
+
+		<!-- side address column -->
+		<div class="col-md-3 col-xs-12 address pull-right">
+    			<br /><br />
+    			<h6><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.about_asset_categories'); ?></h6>
+    			<p><?php echo \Illuminate\Support\Facades\Lang::get('admin/categories/general.about_categories'); ?> </p>
+		</div>
+	</div>
+</div>
+
+<?php $__env->startSection('moar_scripts'); ?>
+<script src="<?php echo asset('assets/js/bootstrap-table.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/cookie/bootstrap-table-cookie.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/mobile/bootstrap-table-mobile.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/bootstrap-table-export.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/tableExport.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/extensions/export/jquery.base64.js'); ?>"></script>
+<script type="text/javascript">
+    $('#table').bootstrapTable({
+        classes: 'table table-responsive table-no-bordered',
+        undefinedText: '',
+        iconsPrefix: 'fa',
+        showRefresh: true,
+        search: true,
+        pageSize: <?php echo e(Setting::getSettings()->per_page); ?>,
+        pagination: true,
+        sidePagination: 'server',
+        sortable: true,
+        cookie: true,
+        cookieExpire: '2y',
+        mobileResponsive: true,
+        showExport: true,
+        showColumns: true,
+        exportDataType: 'all',
+        exportTypes: ['csv', 'txt','json', 'xml'],
+        maintainSelected: true,
+        paginationFirstText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.first'); ?>",
+        paginationLastText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.last'); ?>",
+        paginationPreText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.previous'); ?>",
+        paginationNextText: "<?php echo \Illuminate\Support\Facades\Lang::get('general.next'); ?>",
+        pageList: ['10','25','50','100','150','200'],
+        icons: {
+            paginationSwitchDown: 'fa-caret-square-o-down',
+            paginationSwitchUp: 'fa-caret-square-o-up',
+            columns: 'fa-columns',
+            refresh: 'fa-refresh'
+        },
+
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

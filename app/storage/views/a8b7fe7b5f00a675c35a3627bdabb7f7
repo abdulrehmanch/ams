@@ -1,0 +1,85 @@
+<?php $__env->startSection('title0'); ?>
+            <?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/general.requestable'); ?>
+    <?php echo \Illuminate\Support\Facades\Lang::get('general.assets'); ?>
+<?php $__env->stopSection(); ?>
+
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+    <?php echo $__env->yieldContent('title0'); ?> :: @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+
+<div class="row header">
+    <div class="col-md-12">
+        <h3><?php echo $__env->yieldContent('title0'); ?></h3>
+    </div>
+</div>
+
+<div class="row form-wrapper">
+
+<?php if($assets->count() > 0): ?>
+
+<div class="table-responsive">
+<table id="example">
+
+    <thead>
+        <tr role="row">
+            <th class="col-md-3" bSortable="true"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.asset_model'); ?></th>
+            <?php if(Setting::getSettings()->display_asset_name): ?>
+            <th class="col-md-3" bSortable="true"><?php echo \Illuminate\Support\Facades\Lang::get('general.name'); ?></th>
+            <?php endif; ?>
+            <th class="col-md-2" bSortable="true"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.serial'); ?></th>
+            <th class="col-md-2" bSortable="true"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.location'); ?></th>
+            <th class="col-md-2 actions" bSortable="false"><?php echo \Illuminate\Support\Facades\Lang::get('table.actions'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach($assets as $asset): ?>
+        <tr>
+            <td><?php echo e($asset->model->name); ?></td>
+
+            <?php if(Setting::getSettings()->display_asset_name): ?>
+                <td><?php echo e($asset->name); ?></td>
+            <?php endif; ?>
+
+            <td><?php echo e($asset->serial); ?></td>
+            <td>
+                <?php if($asset->assigneduser && $asset->assetloc): ?>
+                    	<?php echo e($asset->assetloc->name); ?>
+
+                <?php elseif($asset->defaultLoc): ?>
+                    	<?php echo e($asset->defaultLoc->name); ?>
+
+
+                <?php endif; ?>
+
+            </td>
+            <td>
+                <a href="<?php echo route('account/request-asset', $asset->id); ?>" class="btn btn-info btn-sm" title="<?php echo \Illuminate\Support\Facades\Lang::get('button.request'); ?>"><?php echo \Illuminate\Support\Facades\Lang::get('button.request'); ?></a>
+            </td>
+
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+</div>
+<?php else: ?>
+<div class="col-md-9">
+    <div class="alert alert-info alert-block">
+        <i class="fa fa-info-circle"></i>
+        <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+    </div>
+</div>
+
+</div>
+
+<?php endif; ?>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

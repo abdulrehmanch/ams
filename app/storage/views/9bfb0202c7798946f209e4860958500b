@@ -1,0 +1,311 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+View Assets for  <?php echo e($user->fullName()); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Account page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+<div class="row user-profile">
+            <!-- header -->
+            <div class="row header">
+                <div class="col-md-8">
+                    <?php if($user->avatar): ?>
+                        <img src="/uploads/avatars/<?php echo e($user->avatar); ?>" class="avatar img-circle">
+                    <?php else: ?>
+                        <img src="<?php echo e($user->gravatar()); ?>" class="avatar img-circle">
+                    <?php endif; ?>
+                    <h3 class="name"><?php echo e($user->fullName()); ?></h3>
+                    <span class="area"><?php echo e($user->jobtitle); ?>
+
+                        </span>
+                </div>
+        	</div>
+
+            <div class="row profile">
+
+                    <!-- bio, new note & orders column -->
+                    <div class="col-md-10 bio">
+                        <div class="profile-box">
+
+                        <?php if($user->deleted_at != NULL): ?>
+
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <strong>Warning: </strong>
+                                     This user has been deleted. You will have to restore this user to edit them or assign them new assets.
+                                </div>
+                            </div>
+
+                        <?php endif; ?>
+
+
+
+                        <h4><?php echo \Illuminate\Support\Facades\Lang::get('admin/users/general.assets_user', array('name' => $user->first_name)); ?></h4>
+                        <br>
+                        <!-- checked out assets table -->
+                        <?php if(count($user->assets) > 0): ?>
+                          <div class="table-responsive">
+                            <table class="display table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-4"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.asset_model'); ?></th>
+                                        <th class="col-md-2"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/table.asset_tag'); ?></th>
+                                        <th class="col-md-3"><?php echo \Illuminate\Support\Facades\Lang::get('general.name'); ?></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($user->assets as $asset): ?>
+                                    <tr>
+                                        <td>
+                                        <?php if($asset->physical=='1'): ?> <?php echo e($asset->model->name); ?>
+
+                                        <?php endif; ?>
+                                        </td>
+                                        <td><?php echo e($asset->asset_tag); ?></td>
+                                        <td><?php echo e($asset->name); ?></td>
+                                        <td>
+
+                                        <?php if(($asset->image) && ($asset->image!='')): ?>
+                                          <img src="<?php echo Config::get('app.url'); ?>/uploads/assets/<?php echo e($asset->image); ?>" height="50" width="50">
+
+                                        <?php elseif(($asset->model) && ($asset->model->image!='')): ?>
+                                          <img src="<?php echo Config::get('app.url'); ?>/uploads/models/<?php echo e($asset->model->image); ?>" height="50" width="50">
+                                        <?php endif; ?>
+
+                                       </td>
+
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                          </div>
+                        <?php else: ?>
+
+                        <div class="col-md-12">
+                            <div class="alert alert-info alert-block">
+                                <i class="fa fa-info-circle"></i>
+                                <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <br>
+                        <h4><?php echo \Illuminate\Support\Facades\Lang::get('admin/users/general.software_user', array('name' => $user->first_name)); ?></h4>
+                        <br>
+                        <!-- checked out licenses table -->
+                        <?php if(count($user->licenses) > 0): ?>
+                        <div class="table-responsive">
+                          <table class="display table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-5"><?php echo \Illuminate\Support\Facades\Lang::get('general.name'); ?></th>
+                                    <th class="col-md-4"><?php echo \Illuminate\Support\Facades\Lang::get('admin/hardware/form.serial'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($user->licenses as $license): ?>
+                                <tr>
+                                    <td><?php echo e($license->name); ?></td>
+                                    <td>
+
+                                       <?php if(($user->hasAccess('admin')) || ($user->hasAccess('license_keys'))): ?>
+
+                                       <?php echo e(mb_strimwidth($license->serial, 0, 50, "...")); ?>
+
+                                      <?php else: ?>
+                                        ---
+                                      <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        </div>
+                        <?php else: ?>
+
+                        <div class="col-md-12">
+                            <div class="alert alert-info alert-block">
+                                <i class="fa fa-info-circle"></i>
+                                <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+
+
+
+                        <br>
+                        <h4><?php echo \Illuminate\Support\Facades\Lang::get('general.accessories'); ?></h4>
+                        <br>
+                        <!-- checked out licenses table -->
+                        <?php if(count($user->accessories) > 0): ?>
+                        <div class="table-responsive">
+                          <table class="display table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-9">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($user->accessories as $accessory): ?>
+                                <tr>
+                                    <td><?php echo e($accessory->name); ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        </div>
+                        <?php else: ?>
+
+                        <div class="col-md-12">
+                            <div class="alert alert-info alert-block">
+                                <i class="fa fa-info-circle"></i>
+                                <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+
+                        <br>
+                        <h4><?php echo \Illuminate\Support\Facades\Lang::get('general.consumables'); ?></h4>
+                        <br>
+                        <!-- checked out consumables table -->
+                        <?php if(count($user->consumables) > 0): ?>
+                        <div class="table-responsive">
+                          <table class="display table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-9"><?php echo \Illuminate\Support\Facades\Lang::get('general.name'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($user->consumables as $consumable): ?>
+                                <tr>
+                                    <td><?php echo e($consumable->name); ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        </div>
+                        <?php else: ?>
+
+                        <div class="col-md-12">
+                            <div class="alert alert-info alert-block">
+                                <i class="fa fa-info-circle"></i>
+                                <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+
+
+                            <!-- checked out assets table -->
+                            <br><br><br>
+                            <h4>History </h4>
+                            <!-- checked out assets table -->
+                            <?php if(count($user->userlog) > 0): ?>
+                            <div class="table-responsive">
+                            <table class="table table-hover" id="example">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1"></th>
+                                        <th class="col-md-2"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('table.action'); ?></th>
+                                        <th class="col-md-4"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.asset'); ?></th>
+                                        <th class="col-md-2"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('table.by'); ?></th>
+                                        <th class="col-md-3"><?php echo \Illuminate\Support\Facades\Lang::get('general.date'); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($user->userlog as $log): ?>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?php if(($log->assetlog) && ($log->asset_type=="hardware")): ?>
+                                                <i class="fa fa-barcode"></i>
+                                            <?php elseif(($log->accessorylog) && ($log->asset_type=="accessory")): ?>
+                                                <i class="fa fa-keyboard-o"></i>
+                                            <?php elseif(($log->consumablelog) && ($log->asset_type=="consumable")): ?>
+                                                <i class="fa fa-tint"></i>
+                                            <?php elseif(($log->licenselog) && ($log->asset_type=="software")): ?>
+                                                <i class="fa fa-certificate"></i>
+                                            <?php else: ?>
+                                            <i class="fa fa-times"></i>
+                                            <?php endif; ?>
+
+                                        </td>
+                                        <td><?php echo e($log->action_type); ?></td>
+                                        <td>
+
+                                            <?php if(($log->assetlog) && ($log->asset_type=="hardware")): ?>
+
+                                                <?php if($log->assetlog->deleted_at==''): ?>
+
+                                                        <?php echo e($log->assetlog->showAssetName()); ?>
+
+
+                                                <?php else: ?>
+                                                    <del><?php echo e($log->assetlog->showAssetName()); ?></del> (deleted)
+                                                <?php endif; ?>
+
+                                            <?php elseif(($log->licenselog) && ($log->asset_type=="software")): ?>
+
+                                                <?php if($log->licenselog->deleted_at==''): ?>
+
+                                                        <?php echo e($log->licenselog->name); ?>
+
+
+                                                <?php else: ?>
+                                                    <del><?php echo e($log->licenselog->name); ?></del> (deleted)
+                                                <?php endif; ?>
+
+                                             <?php elseif(($log->consumablelog) && ($log->asset_type=="consumable")): ?>
+
+                                                 <?php if($log->consumablelog->deleted_at==''): ?>
+                                                    <?php echo e($log->consumablelog->name); ?>
+
+                                                 <?php else: ?>
+                                                     <del><?php echo e($log->consumablelog->name); ?></del> (deleted)
+                                                 <?php endif; ?>
+
+                                            <?php elseif(($log->accessorylog) && ($log->asset_type=="accessory")): ?>
+                                                <?php if($log->accessorylog->deleted_at==''): ?>
+                                                    <?php echo e($log->accessorylog->name); ?>
+
+                                                <?php else: ?>
+                                                    <del><?php echo e($log->accessorylog->name); ?></del> (deleted)
+                                                <?php endif; ?>
+
+                                             <?php else: ?>
+                                                 <?php echo \Illuminate\Support\Facades\Lang::get('general.bad_data'); ?>
+                                            <?php endif; ?>
+
+                                        </td>
+                                        <td><?php echo e($log->adminlog->fullName()); ?></td>
+                                        <td><?php echo e($log->created_at); ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            </div>
+                            <?php else: ?>
+
+
+                            <div class="col-md-12">
+                                <div class="alert alert-info alert-block">
+                                    <i class="fa fa-info-circle"></i>
+                                    <?php echo \Illuminate\Support\Facades\Lang::get('general.no_results'); ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                        </div>
+                    </div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,203 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+    <?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.settings'); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+<div id="pad-wrapper" class="user-profile">
+                <!-- header -->
+
+                <div class="pull-right">
+                     <a href="<?php echo route('edit/settings'); ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil icon-white"></i> <?php echo \Illuminate\Support\Facades\Lang::get('button.edit'); ?> Settings</a>
+                </div>
+
+                <div class="row-fluid profile">
+                    <!-- bio, new note & orders column -->
+                    <div class="col-md-9 bio">
+                        <h3 class="name"><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.settings'); ?></h3>
+                        <div class="profile-box">
+                            <br>
+                            <!-- checked out assets table -->
+
+                            <table class="table table-hover">
+                                <tbody>
+                                    <?php foreach($settings as $setting): ?>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.site_name'); ?></td>
+                                        <td><?php echo e($setting->site_name); ?> </td>
+                                    </tr>
+                                    <?php if(Sentry::getUser()->isSuperUser()): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.full_multiple_companies_support_text'); ?>
+                                            </td>
+
+                                            <?php if($setting->full_multiple_companies_support == 1): ?>
+                                                <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                            <?php else: ?>
+                                                <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                            <?php endif; ?>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.default_currency'); ?></td>
+                                        <td><?php echo e($setting->default_currency); ?> </td>
+                                    </tr>
+                                     <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.alert_email'); ?></td>
+
+                                        <?php if($setting->alert_email): ?>
+                                            <td><?php echo e($setting->alert_email); ?></td>
+                                        <?php else: ?>
+                                            <td>--</td>
+                                        <?php endif; ?>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.alerts_enabled'); ?></td>
+
+                                        <?php if($setting->alerts_enabled == 1): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+
+                                     <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.header_color'); ?></td>
+
+                                        <?php if($setting->header_color): ?>
+                                            <td><?php echo e($setting->header_color); ?></td>
+                                        <?php else: ?>
+                                            <td>default</td>
+                                        <?php endif; ?>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.auto_increment_assets'); ?></td>
+
+                                        <?php if($setting->auto_increment_assets == 1): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.load_remote_text'); ?></td>
+
+                                        <?php if($setting->load_remote == 1): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.auto_increment_prefix'); ?></td>
+                                        <td><?php echo e($setting->auto_increment_prefix); ?></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.per_page'); ?></td>
+                                        <td><?php echo e($setting->per_page); ?>  </td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.display_qr'); ?></td>
+                                            <?php if($setting->qr_code == 1): ?>
+                                                <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?>
+                                                	(<?php echo e($setting->barcode_type); ?>)
+	                                                <?php echo e($setting->qr_text); ?>
+
+
+                                                </td>
+                                            <?php else: ?>
+                                                <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                            <?php endif; ?>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.default_eula_text'); ?></td>
+
+                                        <?php if($setting->default_eula_text!=''): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+                                    <tr>
+                                       <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.slack_integration'); ?> </td>
+
+                                        <?php if($setting->slack_endpoint!=''): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?>
+
+                                                <?php if($setting->slack_channel!=''): ?>
+                                                    <?php echo e($setting->slack_channel); ?>
+
+                                                <?php endif; ?>
+
+                                            </td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.ldap_integration'); ?></td>
+
+                                        <?php if($setting->ldap_enabled == 1): ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.yes'); ?></td>
+                                        <?php else: ?>
+                                            <td><?php echo \Illuminate\Support\Facades\Lang::get('general.no'); ?></td>
+                                        <?php endif; ?>
+                                    </tr>
+
+
+
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                     <!-- side address column -->
+                    <div class="col-md-3 address pull-right">
+                        <br /><br />
+
+                        <p>These settings let you customize certain aspects of your installation. </p>
+
+                    </div>
+
+                    <div class="col-md-9 bio">
+                        <h3 class="name"><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.system'); ?></h3>
+                        <div class="profile-box">
+                            <br>
+                            <table class="table table-hover">
+                                <tbody>
+	                                <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.snipe_version'); ?></td>
+                                        <td>
+                                            <?php echo e(Config::get('version.hash_version')); ?>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.php'); ?></td>
+                                        <td> <?php echo e(phpversion()); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo \Illuminate\Support\Facades\Lang::get('admin/settings/general.laravel'); ?></td>
+                                        <td>
+                                            <?php echo e($setting->lar_ver()); ?>
+
+                                        </td>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

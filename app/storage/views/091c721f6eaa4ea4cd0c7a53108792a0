@@ -1,0 +1,124 @@
+<?php /* Page title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo \Illuminate\Support\Facades\Lang::get('general.dashboard'); ?> ::
+@parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Page content */ ?>
+<?php $__env->startSection('content'); ?>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="<?php echo asset('assets/css/lib/morris.css'); ?>">
+
+<!-- morrisjs -->
+<script src="<?php echo asset('assets/js/raphael-min.js'); ?>"></script>
+<script src="<?php echo asset('assets/js/morris.min.js'); ?>"></script>
+
+
+<div class="row">
+
+<!-- morris bar & donut charts -->
+
+    <div class="col-md-12">
+        <h4 class="title"><?php echo \Illuminate\Support\Facades\Lang::get('general.dashboard'); ?></h4>
+        <br>
+    </div>
+    <div class="col-md-9 chart">
+        <h5><?php echo \Illuminate\Support\Facades\Lang::get('general.recent_activity'); ?> (<a href="<?php echo Config::get('app.url'); ?>/reports/activity">view all</a>)</h5>
+
+        <table class="table table-hover table-fixed break-word">
+			<thead>
+			    <tr>
+			        <th class="col-md-1"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.date'); ?></th>
+			        <th class="col-md-2"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.admin'); ?></th>
+			        <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('table.item'); ?></th>
+			        <th class="col-md-2"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('table.actions'); ?></th>
+			        <th class="col-md-3"><span class="line"></span><?php echo \Illuminate\Support\Facades\Lang::get('general.user'); ?></th>
+			    </tr>
+			</thead>
+			<tbody>
+			<?php if(count($recent_activity) > 0): ?>
+				<?php foreach($recent_activity as $activity): ?>
+			    <tr>
+			       <td><?php echo e(date("M d", strtotime($activity->created_at))); ?></td>
+			       <td>
+                       <?php if($activity->action_type!='requested'): ?>
+                            <a href="<?php echo route('view/user', $activity->user_id); ?>"><?php echo e($activity->adminlog->fullName()); ?></a>
+                       <?php endif; ?>
+
+                       </td>
+
+			       <td>
+			           	<?php if(($activity->assetlog) && ($activity->asset_type=="hardware")): ?>
+			            	<a href="<?php echo route('view/hardware', $activity->asset_id); ?>"><?php echo $activity->assetlog->showAssetName(); ?></a>
+			            <?php elseif(($activity->licenselog) && ($activity->asset_type=="software")): ?>
+			            	<a href="<?php echo route('view/license', $activity->asset_id); ?>"><?php echo e($activity->licenselog->name); ?></a>
+                        <?php elseif(($activity->consumablelog) && ($activity->asset_type=="consumable")): ?>
+    			            <a href="<?php echo route('view/consumable', $activity->consumable_id); ?>"><?php echo e($activity->consumablelog->name); ?></a>
+			            <?php elseif(($activity->accessorylog) && ($activity->asset_type=="accessory")): ?>
+			            	<a href="<?php echo route('view/accessory', $activity->accessory_id); ?>"><?php echo e($activity->accessorylog->name); ?></a>
+                        <?php else: ?>
+                            <?php echo \Illuminate\Support\Facades\Lang::get('general.bad_data'); ?>
+			            <?php endif; ?>
+
+			           	</td>
+			       <td>
+				       <?php echo strtolower(Lang::get('general.'.str_replace(' ','_',$activity->action_type))); ?>
+
+			       </td>
+			       <td>
+                       <?php if($activity->action_type=='requested'): ?>
+                            <a href="<?php echo route('view/user', $activity->user_id); ?>"><?php echo e($activity->adminlog->fullName()); ?></a>
+                       <?php elseif($activity->userlog): ?>
+			           		<a href="<?php echo route('view/user', $activity->checkedout_to); ?>"><?php echo e($activity->userlog->fullName()); ?></a>
+			           <?php endif; ?>
+
+			           </td>
+
+
+			    </tr>
+			   <?php endforeach; ?>
+			<?php endif; ?>
+			</tbody>
+			</table>
+
+
+    </div>
+    <div class="col-md-3 chart">
+        <h5><?php echo \Illuminate\Support\Facades\Lang::get('general.asset'); ?> <?php echo \Illuminate\Support\Facades\Lang::get('general.status'); ?></h5>
+        <div id="hero-assets" style="height: 250px;"></div>
+    </div>
+
+
+
+</div>
+
+
+
+<!-- build the charts -->
+    <script type="text/javascript">
+
+
+        // Morris Donut Chart
+        Morris.Donut({
+            element: 'hero-assets',
+            data: [
+	            {label: '<?php echo \Illuminate\Support\Facades\Lang::get('general.ready_to_deploy'); ?>', value: <?php echo $asset_stats['rtd']['percent']; ?> },
+                {label: '<?php echo \Illuminate\Support\Facades\Lang::get('general.deployed'); ?>', value: <?php echo $asset_stats['deployed']['percent']; ?> },
+                {label: '<?php echo \Illuminate\Support\Facades\Lang::get('general.pending'); ?>', value: <?php echo $asset_stats['pending']['percent']; ?> },
+                {label: '<?php echo \Illuminate\Support\Facades\Lang::get('general.undeployable'); ?>', value: <?php echo $asset_stats['undeployable']['percent']; ?> },
+                {label: '<?php echo \Illuminate\Support\Facades\Lang::get('general.archived'); ?>', value: <?php echo $asset_stats['archived']['percent']; ?> },
+            ],
+            colors: ["#30a1ec", "#76bdee", "#c4dafe"],
+            formatter: function (y) { return y + "%" }
+        });
+
+
+    </script>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend/layouts/default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
