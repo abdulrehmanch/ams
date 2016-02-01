@@ -1,7 +1,5 @@
 // map
-$( document ).ready(function() {
-    $('#pad-wrapper').hide();
-});
+
 
 
 mapCenter = new L.LatLng(31.579006, 73.402031);

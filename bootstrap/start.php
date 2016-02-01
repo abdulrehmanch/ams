@@ -31,7 +31,7 @@
         // ] );
 
         $env = $app->detectEnvironment(array(
-            'local' => array('AbdulRehman'),
+            'local' => array('ABDULREHMAN'),
             ));
     /*
     |--------------------------------------------------------------------------

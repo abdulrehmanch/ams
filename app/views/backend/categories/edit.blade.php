@@ -66,8 +66,8 @@
 	                        </div>
 	                        <div class="col-md-9">
 								{{ Form::textarea('eula_text', Input::old('eula_text', $category->eula_text), array('class' => 'form-control')) }}
-								<p class="help-block">@lang('admin/categories/general.eula_text_help') </p>
-								<p class="help-block">@lang('admin/settings/general.eula_markdown') </p>
+{{--								<p class="help-block">@lang('admin/categories/general.eula_text_help') </p>--}}
+{{--								<p class="help-block">@lang('admin/settings/general.eula_markdown') </p>--}}
 								
 								{{ $errors->first('eula_text', '<br><span class="alert-msg">:message</span>') }}						
 	                        </div>
