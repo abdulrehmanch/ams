@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'url' => 'http://localhost:8000/dashboard',
+    'url' => 'http://localhost:8000',
 
 
     /*

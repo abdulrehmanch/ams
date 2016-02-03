@@ -74,6 +74,17 @@ return array(
             'schema'   => 'public',
         ),
 
+        'pspc' => array(
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'database' => 'db_saafpani',
+            'username' => 'postgres',
+            'password' => '123',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ),
+
         'sqlsrv' => array(
             'driver'   => 'sqlsrv',
             'host'     => 'localhost',

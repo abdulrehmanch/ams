@@ -652,3 +652,5 @@
     # Map Route
     Route::get( '/',
     [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@getMap' ] );
+    Route::get( '/map/mapdata',
+    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@fetchMapData' ] );

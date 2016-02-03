@@ -93,7 +93,8 @@
               {{ Form::label('default_currency', Lang::get('admin/settings/general.default_currency')) }}
             </div>
             <div class="col-md-9">
-              {{ Form::currencies('default_currency', Input::old('default_currency', $setting->default_currency),'form-control') }}
+              {{ Form::text('default_currency', Input::old('default_currency', $setting->default_currency)) }}
+                {{--{{ Form::currencies('default_currency', Input::old('default_currency', $setting->default_currency),'form-control') }}--}}
               {{ $errors->first('default_currency', '<br><span class="alert-msg">:message</span>') }}
             </div>
           </div>
