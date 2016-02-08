@@ -303,7 +303,7 @@
 
                     <li<?php echo (Request::is('dashboard') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>'); ?>
 
-                    <a href="<?php echo Config::get('app.url'); ?>"><i class="fa fa-dashboard"></i><span><?php echo \Illuminate\Support\Facades\Lang::get('general.dashboard'); ?></span></a>
+                    <a href="<?php echo Config::get('app.url'); ?>/dashboard"><i class="fa fa-dashboard"></i><span><?php echo \Illuminate\Support\Facades\Lang::get('general.dashboard'); ?></span></a>
                     </li>
 
                     <li<?php echo (Request::is('hardware*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>'); ?>

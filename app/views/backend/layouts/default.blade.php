@@ -297,7 +297,7 @@
                     </li>
 
                     <li{{ (Request::is('dashboard') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{Config::get('app.url')}}"><i class="fa fa-dashboard"></i><span>@lang('general.dashboard')</span></a>
+                    <a href="{{Config::get('app.url')}}/dashboard"><i class="fa fa-dashboard"></i><span>@lang('general.dashboard')</span></a>
                     </li>
 
                     <li{{ (Request::is('hardware*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
