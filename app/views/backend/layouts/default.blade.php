@@ -109,7 +109,7 @@
             <!-- navbar -->
     <header class="navbar navbar-inverse" role="banner">
         <a target="_blank" href="">
-            <img style="width: 100%;" src="/assets/img/Saaf-Pani-Asset-Banner.png">
+            <img style="width: 100%;" src="{{ asset('assets/img/Saaf-Pani-Asset-Banner.png')}}">
         </a>
 
         <div class="navbar-header">

@@ -156,6 +156,7 @@ return array(
     'Controllers\\Admin\\LicensesController' => $baseDir . '/app/controllers/admin/LicensesController.php',
     'Controllers\\Admin\\LocationsController' => $baseDir . '/app/controllers/admin/LocationsController.php',
     'Controllers\\Admin\\ManufacturersController' => $baseDir . '/app/controllers/admin/ManufacturersController.php',
+    'Controllers\\Admin\\MapController' => $baseDir . '/app/controllers/admin/MapController.php',
     'Controllers\\Admin\\ModelsController' => $baseDir . '/app/controllers/admin/ModelsController.php',
     'Controllers\\Admin\\ReportsController' => $baseDir . '/app/controllers/admin/ReportsController.php',
     'Controllers\\Admin\\SettingsController' => $baseDir . '/app/controllers/admin/SettingsController.php',
