@@ -42,8 +42,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/compiled/print.css') }}" media="print" />
     <link href="{{ asset('assets/css/bootstrap/bootstrap-overrides.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('assets/css/menu.css') }}" type="text/css" rel="stylesheet" />
+    
+    <!-- Mapping -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
+    <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
+    <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
 
-
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="assets/js/mapping/Leaflet.NavBar.js" type="text/javascript"></script>
+    <script src="assets/js/mapping/styledLayerControl.js"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+    <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
+    <!-- Mapping END -->
     <!-- global header javascripts -->
     <script src="{{ asset('assets/js/jquery-latest.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -325,35 +336,36 @@
                         <li><a href="{{ URL::to('hardware/import') }}"  >@lang('general.import') </a></li>
                     </ul>
                     </li>
-                    <li{{ (Request::is('admin/accessories*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/accessories') }}">
-                        <i class="fa fa-keyboard-o"></i>
-                        <span>@lang('general.accessories')</span>
-                    </a>
-                    </li>
-                    <li{{ (Request::is('admin/consumables*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/consumables') }}">
-                        <i class="fa fa-tint"></i>
-                        <span>@lang('general.consumables')</span>
-                    </a>
-                    </li>
+                    <!-- <li{{ (Request::is('admin/accessories*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                        <a href="{{ URL::to('admin/accessories') }}">
+                            <i class="fa fa-keyboard-o"></i>
+                            <span>@lang('general.accessories')</span>
+                        </a>
+                    </li> -->
+                {{--Licences and Consumables--}}
+                    {{--<li{{ (Request::is('admin/consumables*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}--}}
+                    {{--<a href="{{ URL::to('admin/consumables') }}">--}}
+                        {{--<i class="fa fa-tint"></i>--}}
+                        {{--<span>@lang('general.consumables')</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
 
 
-                    <li{{ (Request::is('admin/licenses*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/licenses') }}"  >
-                        <i class="fa fa-certificate"></i>
-                        <span>@lang('general.licenses')</span>
+                    {{--<li{{ (Request::is('admin/licenses*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}--}}
+                    {{--<a href="{{ URL::to('admin/licenses') }}"  >--}}
+                        {{--<i class="fa fa-certificate"></i>--}}
+                        {{--<span>@lang('general.licenses')</span>--}}
 
-                    </a>
+                    {{--</a>--}}
 
-                    </li>
+                    {{--</li>--}}
 
-                    <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/users') }}">
-                        <i class="fa fa-users"></i>
-                        <span>@lang('general.people')</span>
-                    </a>
-                    </li>
+                    <!-- <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                        <a href="{{ URL::to('admin/users') }}">
+                            <i class="fa fa-users"></i>
+                            <span>@lang('general.people')</span>
+                        </a>
+                    </li> -->
                 @endif
                 @if(Sentry::getUser()->hasAccess('reports'))
                     <li{{ (Request::is('reports*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}

@@ -61,6 +61,12 @@ function locationsList() {
     return $location_list;
 }
 
+function locationsList_pg() {
+    $location_list = array('' => Lang::get('general.select_location')) + Location::orderBy('name', 'asc')
+    ->lists('name', 'id');
+    return $location_list;
+}
+
 function manufacturerList() {
     $manufacturer_list = array('' => 'Select One') + Manufacturer::orderBy('name', 'asc')
     ->lists('name', 'id');

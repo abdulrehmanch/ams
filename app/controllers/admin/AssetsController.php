@@ -64,7 +64,11 @@ class AssetsController extends AdminController
         // Grab the dropdown lists
         $model_list = modelList();
         $statuslabel_list = statusLabelList();
-        $location_list = locationsList();
+
+        // $location_list = locationsList();
+//      get locations from postgres
+        $location_list = locationsList_pg();
+        
         $manufacturer_list = manufacturerList();
         $category_list = categoryList();
         $supplier_list = suppliersList();

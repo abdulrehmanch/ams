@@ -1,0 +1,33 @@
+xamp install 
+
+composer install by giving path to php.exe
+
+
+1.  Enable PHP extention 
+	;extension=php_fileinfo.dll
+2. Install composer
+
+
+extract package snipeit
+
+
+3. run command to add dependencies -> go to command prompt with path where you put the snipit e.g., D:\xampp\htdocs\AMS and run the following command using command prompts
+
+
+	composer install
+4. restore backup 
+	users.sql
+
+$env = $app->detectEnvironment(array(
+            'local' => array('AbdulRehman'),
+            ));
+
+Start laravel server
+	php artisan serve
+	Admin User Email: admin@example.com
+	Admin User Password: testadminuser
+5. migrate laraval
+6. restore backup DB
+	2016010733758-db.sql
+7. App configration
+	http://docs.snipeitapp.com/installation/configuration.html
