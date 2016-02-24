@@ -178,6 +178,7 @@ return array(
             'Reader'				=> 'League\Csv\Reader',
             'Slack' 				=> 'Maknz\Slack\Facades\Slack',
             'Zipper'                => 'Chumper\Zipper\Zipper',
+            'Debugbar'              => 'Barryvdh\Debugbar\Facade',
 
     ),
 

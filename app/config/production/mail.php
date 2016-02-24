@@ -54,7 +54,7 @@ return array(
     |
     */
 
-    'from' => array('address' => 'abddulrehman87@gmail.com', 'name' => 'AMS'),
+    'from' => array('address' => 'abddulrehman87@gmail.com', 'name' => 'Abdul Rehman'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
     |
     */
 
-    'username' => 'abddulrehman87',
+    'username' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
     |
     */
 
-    'password' => '',
+    'password' => null,
 
     /*
     |--------------------------------------------------------------------------

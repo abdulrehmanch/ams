@@ -43,19 +43,7 @@
     <link href="{{ asset('assets/css/bootstrap/bootstrap-overrides.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('assets/css/menu.css') }}" type="text/css" rel="stylesheet" />
     
-    <!-- Mapping -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
-    <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
-    <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
-
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-    <script src="assets/js/mapping/Leaflet.NavBar.js" type="text/javascript"></script>
-    <script src="assets/js/mapping/styledLayerControl.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-    <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
-    <!-- Mapping END -->
-    <!-- global header javascripts -->
+        <!-- global header javascripts -->
     <script src="{{ asset('assets/js/jquery-latest.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 
@@ -164,21 +152,25 @@
                                     <i class="fa fa-barcode fa-fw"></i>
                                     @lang('general.asset')</a>
                             </li>
+                            <!--
                             <li {{{ (Request::is('admin/licenses/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/licenses') }}">
                                     <i class="fa fa-certificate fa-fw"></i>
                                     @lang('general.license')</a>
-                            </li>
+                            </li> -->
+                            <!--
                             <li {{{ (Request::is('admin/accessories/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/accessory') }}">
                                     <i class="fa fa-keyboard-o fa-fw"></i>
                                     @lang('general.accessory')</a>
-                            </li>
+                            </li> -->
+                            <!--
                             <li {{{ (Request::is('admin/consumables/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/consumable') }}">
                                     <i class="fa fa-tint fa-fw"></i>
                                     @lang('general.consumable')</a>
                             </li>
+                            -->
                             <li {{{ (Request::is('admin/users/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/user') }}">
                                     <i class="fa fa-user fa-fw"></i>
@@ -248,16 +240,16 @@
                                     <i class="fa fa-credit-card fa-fw"></i> @lang('general.suppliers')
                                 </a>
                             </li>
-                            <li{{ (Request::is('admin/settings/statuslabels*') ? ' class="active"' : '') }}>
-                                <a href="{{ URL::to('admin/settings/statuslabels') }}">
-                                    <i class="fa fa-list fa-fw"></i> @lang('general.status_labels')
-                                </a>
-                            </li>
-                            <li{{ (Request::is('admin/settings/depreciations*') ? ' class="active"' : '') }}>
-                                <a href="{{ URL::to('admin/settings/depreciations') }}">
-                                    <i class="fa fa-arrow-down fa-fw"></i> @lang('general.depreciation')
-                                </a>
-                            </li>
+                            {{--<li{{ (Request::is('admin/settings/statuslabels*') ? ' class="active"' : '') }}>--}}
+                                {{--<a href="{{ URL::to('admin/settings/statuslabels') }}">--}}
+                                    {{--<i class="fa fa-list fa-fw"></i> @lang('general.status_labels')--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                            {{--<li{{ (Request::is('admin/settings/depreciations*') ? ' class="active"' : '') }}>--}}
+                                {{--<a href="{{ URL::to('admin/settings/depreciations') }}">--}}
+                                    {{--<i class="fa fa-arrow-down fa-fw"></i> @lang('general.depreciation')--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
                             <li{{ (Request::is('admin/settings/locations*') ? ' class="active"' : '') }}>
                                 <a href="{{ URL::to('admin/settings/locations') }}">
                                     <i class="fa fa-globe fa-fw"></i> @lang('general.locations')
@@ -279,11 +271,11 @@
                                 </a>
                             </li>
                             <li class="divider"></li>
-                            <li>
-                                <a href="{{ route('app') }}">
-                                    <i class="fa fa-cog fa-fw"></i> @lang('general.settings')
-                                </a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{ route('app') }}">--}}
+                                    {{--<i class="fa fa-cog fa-fw"></i> @lang('general.settings')--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
 
                         </ul>
                     </li>
@@ -360,12 +352,12 @@
 
                     {{--</li>--}}
 
-                    <!-- <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                     <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
                         <a href="{{ URL::to('admin/users') }}">
                             <i class="fa fa-users"></i>
                             <span>@lang('general.people')</span>
                         </a>
-                    </li> -->
+                    </li> 
                 @endif
                 @if(Sentry::getUser()->hasAccess('reports'))
                     <li{{ (Request::is('reports*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}

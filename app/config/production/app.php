@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'url' => 'https://localhost',
+    'url' => 'http://202.166.167.119:81/ams/public',
 
 
     /*
@@ -53,6 +53,6 @@ return array(
     | Run a php artisan key:generate --env=staging to create a random one
     */
 
-    'key' => 'Change_this_key_or_snipe_will_get_ya',
+    'key' => 'Do0p9gff4LxpGMeGEXgphRCeO81TDgNn',
 
 );

@@ -400,7 +400,8 @@ class ModelsController extends AdminController
 
     public function getDatatable($status = null)
     {
-        $models = Model::with('category','assets','depreciation');
+        $models = Model::with('category','assets','depreciation')
+        ->groupBy('models.created_at','models.id');
 
         switch ($status) {
         case 'Deleted':

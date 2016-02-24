@@ -32,6 +32,18 @@
 @if (Input::get('status'))
 @if (Input::get('status')=='Deployed')
 @section('map-content')
+<!-- Mapping -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
+    <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
+    <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
+
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="assets/js/mapping/Leaflet.NavBar.js" type="text/javascript"></script>
+    <script src="assets/js/mapping/styledLayerControl.js"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+    <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
+    <!-- Mapping END -->
     
     <div id="map" style="height: 250px">
         <script src="assets/js/mapping/map.js" type="text/javascript"></script>

@@ -267,6 +267,7 @@ class SuppliersController extends AdminController
     public function getDatatable()
     {
         $suppliers = Supplier::select(array('id','name','address','address2','city','state','country','fax', 'phone','email','contact'))
+        ->groupBy('suppliers.created_at', 'suppliers.id')
         ->whereNull('deleted_at');
 
         if (Input::has('search')) {

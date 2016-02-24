@@ -56,6 +56,7 @@
      public function getDatatable()
      {
         $maintenances = AssetMaintenance::with('asset','supplier','asset.company')
+        ->groupBy('asset_maintenances.created_at', 'asset_maintenances.id')
          ->whereNull('deleted_at');
 
          if (Input::has('search')) {

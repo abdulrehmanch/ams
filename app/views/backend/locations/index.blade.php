@@ -34,6 +34,15 @@ Locations ::
                 <th data-searchable="false" data-sortable="false" data-field="assets_checkedout">@lang('admin/locations/table.assets_checkedout')</th>
                 <th data-searchable="true" data-sortable="true" data-field="currency">{{{ Setting::first()->default_currency }}}</th>
                 <th data-searchable="true" data-sortable="true" data-field="address">@lang('admin/locations/table.address')</th>
+
+                <th data-searchable="true" data-sortable="false" data-field="scheme_code">SCHEME CODE</th>
+                <th data-searchable="true" data-sortable="false" data-field="coordinates">COORDINATES</th>
+
+                <th data-searchable="true" data-sortable="false" data-field="navigate">NAVIGATE</th>
+
+                <!-- <th data-searchable="true" data-sortable="false" data-field="longitude">Longitude</th>
+                <th data-searchable="true" data-sortable="false" data-field="latitude">Latitude</th> -->
+
                 <th data-searchable="true" data-sortable="true" data-field="city">@lang('admin/locations/table.city')
                 </th>
                 <th data-searchable="true" data-sortable="true" data-field="state">
@@ -43,6 +52,7 @@ Locations ::
                 @lang('admin/locations/table.country')</th>
                 <th data-switchable="false" data-searchable="false" data-sortable="false" data-field="actions">{{ Lang::get('table.actions') }}</th>
             </tr>
+
         </thead>
     </table>
 </div>

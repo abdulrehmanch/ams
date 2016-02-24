@@ -908,6 +908,8 @@ class UsersController extends AdminController {
         }
 
         $users = User::select(array('users.id','users.employee_num','users.email','users.username','users.location_id','users.manager_id','users.first_name','users.last_name','users.created_at','users.notes','users.company_id', 'users.deleted_at'))
+        // Group by clause for post gres
+        ->groupBy('users.first_name','users.id')
         ->with('assets','accessories','consumables','licenses','manager','sentryThrottle','groups','userloc','company');
         $users = Company::scopeCompanyables($users);
 

@@ -46,6 +46,42 @@
                     {{ $errors->first('name', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>') }}
                     </div>
             </div>
+            <!-- Scheme code -->
+            <div class="form-group {{ $errors->has('scheme_code') ? ' has-error' : '' }}">
+                <label for="name" class="col-md-2 control-label">Scheme Code
+                 <i class='fa fa-asterisk'></i></label>
+                 </label>
+                    <div class="col-md-12">
+                        <div class="col-xs-8">
+                        <input class="form-control" type="text" name="scheme_code" id="scheme_code" value="{{{ Input::old('scheme_code', $location->scheme_code) }}}" />
+                    </div>
+                    {{ $errors->first('scheme_code', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>') }}
+                    </div>
+            </div>
+            <!-- Logitude -->
+            <div class="form-group {{ $errors->has('longitude') ? ' has-error' : '' }}">
+                <label for="name" class="col-md-2 control-label">Longitude
+                 <i class='fa fa-asterisk'></i></label>
+                 </label>
+                    <div class="col-md-12">
+                        <div class="col-xs-8">
+                        <input class="form-control" type="text" name="longitude" id="longitude" value="{{{ Input::old('longitude', $location->longitude) }}}" />
+                    </div>
+                    {{ $errors->first('Longitude', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>') }}
+                    </div>
+            </div>
+            <!-- latitude -->
+            <div class="form-group {{ $errors->has('latitude') ? ' has-error' : '' }}">
+                <label for="name" class="col-md-2 control-label">Latitude
+                 <i class='fa fa-asterisk'></i></label>
+                 </label>
+                    <div class="col-md-12">
+                        <div class="col-xs-8">
+                        <input class="form-control" type="text" name="latitude" id="latitude" value="{{{ Input::old('latitude', $location->latitude) }}}" />
+                    </div>
+                    {{ $errors->first('Latitude', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>') }}
+                    </div>
+            </div>
 
             <!-- Parent-->
             <div class="form-group {{ $errors->has('parent_id') ? ' has-error' : '' }}">
@@ -60,12 +96,12 @@
 
             <!-- Currency -->
             <div class="form-group {{ $errors->has('currency') ? ' has-error' : '' }}">
-                <label for="currency" class="col-md-2 control-label">
+                <!-- <label for="currency" class="col-md-2 control-label">
                 	@lang('admin/locations/table.currency')
-                </label>
+                </label> -->
                     <div class="col-md-12">
                         <div class="col-xs-8">
-                        {{ Form::currencies('currency', Input::old('currency', $location->currency)) }}
+                        {{ Form::hidden('currency', 'PKR')}}
                     </div>
                     {{ $errors->first('currency', '<br><span class="alert-msg"><i class="fa fa-times"></i> :message</span>') }}
                     </div>

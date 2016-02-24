@@ -82,6 +82,9 @@ class LocationsController extends AdminController
             $location->state    		= e(Input::get('state'));
             $location->country    		= e(Input::get('country'));
             $location->zip    			= e(Input::get('zip'));
+            $location->scheme_code = Input::get('scheme_code');
+            $location->longitude = Input::get('longitude');
+            $location->latitude = Input::get('latitude');
             $location->user_id          = Sentry::getId();
 
             // Was the asset created?
@@ -210,6 +213,9 @@ class LocationsController extends AdminController
             $location->state    		= e(Input::get('state'));
             $location->country    	= e(Input::get('country'));
             $location->zip    		  = e(Input::get('zip'));
+            $location->scheme_code = Input::get('scheme_code');
+            $location->longitude = Input::get('longitude');
+            $location->latitude = Input::get('latitude');
 
             // Was the asset created?
             if($location->save()) {
@@ -288,7 +294,9 @@ class LocationsController extends AdminController
     **/
     public function getDatatable()
     {
-        $locations = Location::select(array('locations.id','locations.name','locations.address','locations.address2','locations.city','locations.state','locations.zip','locations.country','locations.parent_id','locations.currency'))->with('assets');
+        $locations = Location::select(array('locations.id','locations.name','locations.scheme_code','locations.longitude','locations.latitude','locations.address','locations.address2','locations.city','locations.state','locations.zip','locations.country','locations.parent_id','locations.currency'))
+        ->groupBy('locations.deleted_at', 'locations.id')
+        ->with('assets');
 
 
         if (Input::has('search')) {
@@ -317,7 +325,7 @@ class LocationsController extends AdminController
               $locations = $locations->OrderParent($order);
               break;
             default:
-              $allowed_columns = ['id','name','address','city','state','country','currency'];
+              $allowed_columns = ['id','name','address','city','state','country','currency','scheme_code', 'longitude','latitude'];
 
               $sort = in_array(Input::get('sort'), $allowed_columns) ? Input::get('sort') : 'created_at';
               $locations = $locations->orderBy($sort, $order);
@@ -333,6 +341,12 @@ class LocationsController extends AdminController
         foreach($locations as $location) {
             $actions = '<nobr><a href="'.route('update/location', $location->id).'" class="btn btn-warning btn-sm" style="margin-right:5px;"><i class="fa fa-pencil icon-white"></i></a><a data-html="false" class="btn delete-asset btn-danger btn-sm" data-toggle="modal" href="'.route('delete/location', $location->id).'" data-content="'.Lang::get('admin/locations/message.delete.confirm').'" data-title="'.Lang::get('general.delete').' '.htmlspecialchars($location->name).'?" onClick="return false;"><i class="fa fa-trash icon-white"></i></a></nobr>';
 
+            $coordinatesArray = array(
+                                    $location->longitude,
+                                    $location->latitude
+                                    );
+            $navigateTo = '<a href="'.route('update/location', $location->id).'" class="fa fa-map" style="margin-right:5px;"></a>';
+
             $rows[] = array(
                 'id'            => $location->id,
                 'name'          => link_to('admin/settings/locations/'.$location->id.'/view', $location->name),
@@ -345,6 +359,10 @@ class LocationsController extends AdminController
                 'state'         => $location->state,
                 'country'       => $location->country,
                 'currency'      => $location->currency,
+                'scheme_code'   => $location->scheme_code,
+                'coordinates'   => $coordinatesArray,
+                'navigate'      =>$navigateTo,
+
                 'actions'       => $actions
             );
         }
