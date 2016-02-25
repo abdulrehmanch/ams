@@ -240,11 +240,11 @@
                                     <i class="fa fa-credit-card fa-fw"></i> @lang('general.suppliers')
                                 </a>
                             </li>
-                            {{--<li{{ (Request::is('admin/settings/statuslabels*') ? ' class="active"' : '') }}>--}}
-                                {{--<a href="{{ URL::to('admin/settings/statuslabels') }}">--}}
-                                    {{--<i class="fa fa-list fa-fw"></i> @lang('general.status_labels')--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
+                            <li{{ (Request::is('admin/settings/statuslabels*') ? ' class="active"' : '') }}>
+                                <a href="{{ URL::to('admin/settings/statuslabels') }}">
+                                    <i class="fa fa-list fa-fw"></i> @lang('general.status_labels')
+                                </a>
+                            </li>
                             {{--<li{{ (Request::is('admin/settings/depreciations*') ? ' class="active"' : '') }}>--}}
                                 {{--<a href="{{ URL::to('admin/settings/depreciations') }}">--}}
                                     {{--<i class="fa fa-arrow-down fa-fw"></i> @lang('general.depreciation')--}}

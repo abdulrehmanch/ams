@@ -66,12 +66,12 @@ return array(
         'pgsql' => array(
             'driver'   => 'pgsql',
             'host'     => 'localhost',
-            'database' => 'db_ams',
+            'database' => 'db_saafpani',
             'username' => 'postgres',
             'password' => '123',
             'charset'  => 'utf8',
             'prefix'   => '',
-            'schema'   => 'public',
+            'schema'   => 'ams',
         ),
 
         'pspc' => array(

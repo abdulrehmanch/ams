@@ -24,8 +24,10 @@ var baseLayers = {
 L.control.layers(baseLayers).addTo(map);
 map.addLayer(googleLayer);
 
-var rawData = $.getJSON('map/mapdata');
-rawData.then(function(data) 
+var geoJsonData = $.getJSON('map/mapdata');
+//console.log(geoJsonData);
+
+geoJsonData.then(function(data)
       {
 			L.geoJson(data,
 				{

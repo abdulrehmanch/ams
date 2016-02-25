@@ -44,7 +44,9 @@
     <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
     <!-- Mapping END -->
-    
+    <script>
+        {{--var count = {{ $count }};--}}
+    </script>
     <div id="map" style="height: 250px">
         <script src="assets/js/mapping/map.js" type="text/javascript"></script>
     </div>

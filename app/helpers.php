@@ -19,9 +19,11 @@ if(!function_exists("ParseFloat")) {
 
 function modelList() {
     $model_list = array('' => Lang::get('general.select_model')) + DB::table('models')
-    ->select(DB::raw('IF (modelno="" OR modelno IS NULL,name,concat(name, " / ",modelno)) as name, id'))
+    ->select(DB::raw("concat(name, modelno) as name, id"))
     ->orderBy('name', 'asc')
+    ->where('modelno','=','')
     ->whereNull('deleted_at')
+    ->orWhereNull('modelno')
     ->lists('name', 'id');
     return $model_list;
 }
@@ -80,7 +82,7 @@ function statusTypeList() {
 
 function managerList() {
     $manager_list = array('' => '') + DB::table('users')
-    ->select(DB::raw('concat(last_name,", ",first_name," (",username,")") as full_name, id'))
+    ->select(DB::raw("concat(last_name,', ',first_name,' (',username,')') as full_name, id"))
     ->whereNull('deleted_at', 'and')
     ->orderBy('last_name', 'asc')
     ->orderBy('first_name', 'asc')
@@ -99,7 +101,12 @@ function categoryTypeList() {
 }
 
 function usersList() {
-    $users_list = array('' => Lang::get('general.select_user')) + DB::table('users')->select(DB::raw('concat(last_name,", ",first_name," (",username,")") as full_name, id'))->whereNull('deleted_at')->orderBy('last_name', 'asc')->orderBy('first_name', 'asc')->lists('full_name', 'id');
+    $users_list = array('' => Lang::get('general.select_user')) + DB::table('users')
+            ->select(DB::raw("concat(last_name,', ',first_name,' (',username,')') as full_name, id"))
+            ->whereNull('deleted_at')
+            ->orderBy('last_name', 'asc')
+            ->orderBy('first_name', 'asc')
+            ->lists('full_name', 'id');
     return $users_list;
 }
 

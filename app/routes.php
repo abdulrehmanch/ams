@@ -651,6 +651,6 @@
         [ 'as' => 'home', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@getIndex' ] );
     # Map Route
     Route::get( '/',
-    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@getMap' ] );
+    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\AssetsController@getMap' ] );
     Route::get( '/map/mapdata',
-    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\DashboardController@fetchMapData' ] );
+    [ 'as' => 'map', 'before' => 'admin-auth', 'uses' => 'Controllers\Admin\AssetsController@fetchMapData' ] );

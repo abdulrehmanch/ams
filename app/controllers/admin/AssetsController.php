@@ -34,6 +34,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use CustomField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Models;
+use Debugbar;
 
 
 class AssetsController extends AdminController
@@ -64,11 +65,7 @@ class AssetsController extends AdminController
         // Grab the dropdown lists
         $model_list = modelList();
         $statuslabel_list = statusLabelList();
-
-        // $location_list = locationsList();
-//      get locations from postgres
-        $location_list = locationsList_pg();
-        
+        $location_list = locationsList();
         $manufacturer_list = manufacturerList();
         $category_list = categoryList();
         $supplier_list = suppliersList();
@@ -1491,4 +1488,28 @@ class AssetsController extends AdminController
 
       return $data;
   }
+
+    //    map controller
+    public function getMap(){
+
+        return View::make('frontend/map');
+    }
+    # Fetch Map Data
+    public function fetchMapData(){
+
+        $count = DB::select(DB::raw("SELECT COUNT(*) as count, b.scheme_code From assets a , locations b where a.rtd_location_id = b.id GROUP BY b.scheme_code"));
+//            Response::json($count) ;
+        //return $count[0]->scheme_code;
+        return $count;
+
+        $sql = "SELECT row_to_json(fc) FROM (
+                SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (
+                SELECT 'Feature' As type , ST_AsGeoJSON(lg.geom)::json As geometry , row_to_json((
+                SELECT l FROM (
+                SELECT scheme_id, scheme_name, scheme_code, scheme_type, village_name, village_code, tehsil_name, tehsil_code, scheme_status, division, district ) As l )) As properties
+                FROM basemap.saafpani_schemes As lg where lg.geom != '' ) As f ) fc";
+
+        $mapdata = DB::connection('pspc')->select($sql);
+        return $mapdata[0]->row_to_json;
+    }
 }

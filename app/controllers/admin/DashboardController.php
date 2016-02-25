@@ -73,25 +73,4 @@ class DashboardController extends AdminController
 
         return View::make('backend/dashboard')->with('asset_stats',$asset_stats)->with('recent_activity',$recent_activity);
     }
-
-//    map controller
-
-    public function getMap(){
-        return View::make('frontend/map');
-    }
-    # Fetch Map Data
-    public function fetchMapData(){
-
-        $sql = "SELECT row_to_json(fc) FROM (
-                SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (
-                SELECT 'Feature' As type , ST_AsGeoJSON(lg.geom)::json As geometry , row_to_json((
-                SELECT l FROM (
-                SELECT scheme_id, scheme_name, scheme_code, scheme_type, village_name, village_code, tehsil_name, tehsil_code, scheme_status, division, district ) As l )) As properties
-                FROM basemap.saafpani_schemes As lg where lg.geom != '' ) As f ) fc";
-
-//         $sql = "SELECT * from basemap.saafpani_schemes";
-        $mapdata = DB::connection('pspc')->select($sql);
-        return $mapdata[0]->row_to_json;
-    }
-
 }

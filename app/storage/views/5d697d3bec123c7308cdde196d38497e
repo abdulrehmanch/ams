@@ -244,11 +244,11 @@
                                     <i class="fa fa-credit-card fa-fw"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.suppliers'); ?>
                                 </a>
                             </li>
-                            <?php /*<li<?php echo (Request::is('admin/settings/statuslabels*') ? ' class="active"' : ''); ?>>*/ ?>
-                                <?php /*<a href="<?php echo URL::to('admin/settings/statuslabels'); ?>">*/ ?>
-                                    <?php /*<i class="fa fa-list fa-fw"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.status_labels'); ?>*/ ?>
-                                <?php /*</a>*/ ?>
-                            <?php /*</li>*/ ?>
+                            <li<?php echo (Request::is('admin/settings/statuslabels*') ? ' class="active"' : ''); ?>>
+                                <a href="<?php echo URL::to('admin/settings/statuslabels'); ?>">
+                                    <i class="fa fa-list fa-fw"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.status_labels'); ?>
+                                </a>
+                            </li>
                             <?php /*<li<?php echo (Request::is('admin/settings/depreciations*') ? ' class="active"' : ''); ?>>*/ ?>
                                 <?php /*<a href="<?php echo URL::to('admin/settings/depreciations'); ?>">*/ ?>
                                     <?php /*<i class="fa fa-arrow-down fa-fw"></i> <?php echo \Illuminate\Support\Facades\Lang::get('general.depreciation'); ?>*/ ?>
