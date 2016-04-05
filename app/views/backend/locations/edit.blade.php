@@ -196,18 +196,19 @@
 </form>
 
 @if (!$location->id)
+$location->id = 0
 <script>
 
 	var $eventSelect = $(".parent");
-	$eventSelect.on("change", function () { parent_details($eventSelect.val()); });
-	$(function() {
+    $eventSelect.on("change", function () { parent_details($eventSelect.val()); });
+    $(function() {
         var parent_loc = $(".parent option:selected").val();
         if(parent_loc!=''){
             parent_details(parent_loc);
         }
-	});
+    });
 
-	function parent_details(id) {
+    function parent_details(id) {
 
         //start ajax request
         $.ajax({
@@ -228,6 +229,8 @@
 
 	};
 </script>
+
+
 @endif
 
 @stop

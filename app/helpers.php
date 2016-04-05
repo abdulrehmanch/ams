@@ -21,7 +21,7 @@ function modelList() {
     $model_list = array('' => Lang::get('general.select_model')) + DB::table('models')
     ->select(DB::raw("concat(name, modelno) as name, id"))
     ->orderBy('name', 'asc')
-    ->where('modelno','=','')
+//    ->where('modelno','=','')//test it again
     ->whereNull('deleted_at')
     ->orWhereNull('modelno')
     ->lists('name', 'id');
@@ -64,9 +64,48 @@ function locationsList() {
 }
 
 function locationsList_pg() {
-    $location_list = array('' => Lang::get('general.select_location')) + Location::orderBy('name', 'asc')
-    ->lists('name', 'id');
+    // Config::set('database.fetch', PDO::FETCH_ASSOC);
+    $location = DB::connection('pspc')->select('SELECT scheme_code ,  scheme_code as id from public.tbl_schemes');
+    $location_list = array('' => Lang::get('general.select_location'));
+    foreach ($location as $loc) {
+        $location_list[$loc->id] = $loc->scheme_code;
+    }
     return $location_list;
+}
+
+function saveNewLocation($scheme_code){
+    // check wither the sceme_code exists it location
+    if (Location::where('scheme_code', '=', $scheme_code)->exists()){
+
+        $location = Location::where('scheme_code', '=', $scheme_code)->firstOrFail();
+
+        return $location->id;
+
+    }
+
+    else {
+
+        $sql = "SELECT scheme_name, scheme_code, village_name, tehsil_name, district, latitude, longitude from basemap.saafpani_schemes WHERE scheme_code = '" .$scheme_code. "' limit 1";
+        $pgLocation = DB::connection('pspc')->select($sql);
+
+        $saveLocation = new Location();
+        $saveLocation->name = $pgLocation[0]->scheme_name;
+        $saveLocation->address = $pgLocation[0]->village_name;
+        $saveLocation->city = $pgLocation[0]->tehsil_name;
+        $saveLocation->state = 'Punjab';
+        $saveLocation->country = 'PK';
+        $saveLocation->scheme_code = $pgLocation[0]->scheme_code;
+        $saveLocation->latitude = $pgLocation[0]->latitude;
+        $saveLocation->longitude = $pgLocation[0]->longitude;
+        $saveLocation->user_id = Sentry::getId();
+        $saveLocation->save();
+
+        $location = Location::where('scheme_code', '=', $scheme_code)->firstOrFail();
+
+        return $location->id;
+    }
+
+
 }
 
 function manufacturerList() {

@@ -40,8 +40,15 @@ function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties) {
     	var popupContent = '';
-    	popupContent += feature.properties.scheme_name + "<br>";
-    	
+      layer.bindLabel('' +feature.properties.count, 
+        {
+          noHide:true,
+          className: "my-label",
+          offset: [-15, -42] 
+        });
+      popupContent += "Scheme Name: "+ feature.properties.scheme_name + "<br>"
+      + "No. of Assets Deplyed: "+ feature.properties.count + "<br>";
+      
         layer.bindPopup(popupContent);
     }
 }
@@ -83,3 +90,11 @@ function onEachFeature(feature, layer) {
   };
    // Navgation.addTo(map);
 
+function zoomToCoord(lat, lon){
+
+  // map.panTo([lat, lon]);
+  map.setView([lat, lon], 16)
+  console.log(lat);
+  console.log(lon);
+
+}

@@ -559,6 +559,7 @@ class ReportsController extends AdminController
                                               ->orderBy( 'created_at', 'DESC' )
                                               ->get();
 
+
         return View::make( 'backend/reports/asset_maintenances', compact( 'assetMaintenances' ) );
 
     }

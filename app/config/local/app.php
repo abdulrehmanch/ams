@@ -27,7 +27,7 @@ return array(
     */
 
     // 'url' => 'http://192.168.1.136:8000',
-    'url' => 'http://localhost/ams/public',
+    'url' => 'http://localhost/Office/ams/public',
 
     /*
     |--------------------------------------------------------------------------

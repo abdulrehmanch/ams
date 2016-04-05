@@ -66,18 +66,19 @@ return array(
         'pgsql' => array(
             'driver'   => 'pgsql',
             'host'     => 'localhost',
-            'database' => 'db_ams',
+            'port'      => '5435',
+            'database' => 'db_saafpani',
             'username' => 'postgres',
-            'password' => '123',
+            'password' => 'abcd1234',
             'charset'  => 'utf8',
             'prefix'   => '',
-            'schema'   => 'public',
+            'schema'   => 'ams',
         ),
 
         'pspc' => array(
             'driver'   => 'pgsql',
             'host'     => 'localhost',
-			'port'      => '5434',
+			'port'      => '5435',
             'database' => 'db_saafpani',
             'username' => 'postgres',
             'password' => 'abcd1234',

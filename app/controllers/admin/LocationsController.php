@@ -1,6 +1,7 @@
 <?php namespace Controllers\Admin;
 
 use AdminController;
+//use DebugBar\DebugBar;
 use Input;
 use Lang;
 use Location;
@@ -11,6 +12,7 @@ use Sentry;
 use Str;
 use Validator;
 use View;
+use Debugbar;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -64,6 +66,9 @@ class LocationsController extends AdminController
 
         // create a new location instance
         $location = new Location();
+
+
+        // Debugbar::info($new);
 
         // attempt validation
         if ($location->validate($new)) {

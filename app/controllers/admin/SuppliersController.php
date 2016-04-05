@@ -12,6 +12,7 @@ use Sentry;
 use Str;
 use Validator;
 use View;
+use Debugbar;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -87,6 +88,7 @@ class SuppliersController extends AdminController
                 })->save($path);
                 $supplier->image = $file_name;
             }
+            Debugbar::info('at 91');
 
             // Was it created?
             if($supplier->save()) {

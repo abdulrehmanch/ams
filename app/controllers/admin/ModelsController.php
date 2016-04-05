@@ -18,6 +18,7 @@ use Datatable;
 use Asset;
 use Company;
 use Config;
+use Debugbar;
 
 //use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,6 +46,7 @@ class ModelsController extends AdminController
         // Show the page
         $depreciation_list = depreciationList();
         $manufacturer_list = manufacturerList();
+        Debugbar::info($manufacturer_list);
         $category_list = categoryList();
         $view = View::make('backend/models/edit');
         $view->with('category_list',$category_list);
@@ -135,6 +137,8 @@ class ModelsController extends AdminController
             }
 
             // Was it created?
+            Debugbar::info($model);
+//            return $model;
             if($model->save()) {
                 // Redirect to the new model  page
                 return Redirect::to("hardware/models")->with('success', Lang::get('admin/models/message.create.success'));
@@ -473,7 +477,20 @@ class ModelsController extends AdminController
     **/
     public function getDataView($modelID)
     {
-        $assets = Asset::where('model_id','=',$modelID)->withTrashed()->with('company');
+        $assets = Asset::where('model_id','=',$modelID)->withTrashed()->with('company')
+            ->groupBy('created_at','name','asset_tag', 'model_id','serial','purchase_date',
+                'purchase_cost','order_number','assigned_to','notes','image','user_id','updated_at',
+                'physical','deleted_at','status_id','archived','warranty_months','depreciate',
+                'supplier_id','requestable','accepted', 'last_checkout', 'expected_checkin',
+                'company_id','_snipeit_processor','_snipeit_memory','_snipeit_name','_snipeit_mac_adress',
+                '_snipeit_ip_address','_snipeit_username','_snipeit_password','_snipeit_dbname','_snipeit_port',
+                '_snipeit_subnet','_snipeit_start_ip','_snipeit_end_ip','_snipeit_zhost_subnet','_snipeit_status',
+                '_snipeit_purpose','_snipeit_manager','_snipeit_ip_address321321','_snipeit_rack_location',
+                '_snipeit_encryption_enabled','_snipeit_trackitid','_snipeit_hard_drive','_snipeit_certificate_management',
+                '_snipeit_customer','_snipeit_ip_osoite','_snipeit_location_test','_snipeit_buildingname',
+                '_snipeit_room_name','_snipeit_department','_snipeit_sim','_snipeit_imei','_snipeit_key',
+                '_snipeit_geilheitsgrad','_snipeit_geilheit','_snipeit_office_no','_snipeit_installed_date_','id');
+        // working
 
         if (Input::has('search')) {
             $assets = $assets->TextSearch(Input::get('search'));

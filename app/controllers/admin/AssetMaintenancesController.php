@@ -84,6 +84,7 @@
          $maintenancesCount = $maintenances->count();
          $maintenances = $maintenances->skip($offset)->take($limit)->get();
 
+
          $rows = array();
          $settings = Setting::getSettings();
 
