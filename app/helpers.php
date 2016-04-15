@@ -65,10 +65,10 @@ function locationsList() {
 
 function locationsList_pg() {
     // Config::set('database.fetch', PDO::FETCH_ASSOC);
-    $location = DB::connection('pspc')->select('SELECT scheme_code ,  scheme_code as id from public.tbl_schemes');
+    $location = DB::connection('pspc')->select('SELECT scheme_name ,  scheme_code as id from public.tbl_schemes');
     $location_list = array('' => Lang::get('general.select_location'));
     foreach ($location as $loc) {
-        $location_list[$loc->id] = $loc->scheme_code;
+        $location_list[$loc->id] = $loc->scheme_name;
     }
     return $location_list;
 }

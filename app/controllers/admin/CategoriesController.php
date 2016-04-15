@@ -55,6 +55,7 @@ class CategoriesController extends AdminController
 
         $validator = Validator::make(Input::all(), $category->rules);
 
+
         if ($validator->fails())
         {
             // The given data did not pass validation

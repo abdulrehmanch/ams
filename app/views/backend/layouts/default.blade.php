@@ -303,6 +303,11 @@
                     <a href="{{Config::get('app.url')}}/dashboard"><i class="fa fa-dashboard"></i><span>@lang('general.dashboard')</span></a>
                     </li>
 
+                    {{--Schemes--}}
+                    <li {{ (Request::is('admin/settings/locations*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                    <a href="{{URL::to('admin/settings/locations') }}"><i class="fa fa-globe"></i><span>Schemes</span></a>
+                    </li>
+
                     <li{{ (Request::is('hardware*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
                     <a href="{{ URL::to('hardware') }}" class="dropdown-toggle">
                         <i class="fa fa-barcode"></i>

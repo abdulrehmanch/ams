@@ -21,7 +21,6 @@
     @else
             @lang('general.all')
     @endif
-
     @lang('general.assets')
 @stop
 
@@ -31,27 +30,31 @@
 @stop
 @if (Input::get('status'))
 @if (Input::get('status')=='Deployed')
-@section('map-content')
-<!-- Mapping -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" rel="stylesheet"/>
+    @section('map-content')
+
+            <!-- Mapping -->
+    <link rel="stylesheet" href="assets/css/mapping/leaflet.css" />
     <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
     <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
     <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
     <link rel="stylesheet" href="assets/css/mapping/leaflet.label.css" />
 
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <!-- Load Leaflet from CDN-->
+    <script src="assets/js/mapping/leaflet.js"></script>
+    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script src="assets/js/mapping/Leaflet.NavBar.js" type="text/javascript"></script>
     <script src="assets/js/mapping/styledLayerControl.js"></script>
-    <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-    <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
+    <script src="assets/js/mapping/Google.js" type="text/javascript"></script>
     <script src="assets/js/mapping/leaflet.label.js"></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="assets/js/mapping/esri-leaflet.js"></script>
     <!-- Mapping END -->
-    <script>
-        {{--var count = {{ $count }};--}}
-    </script>
-    <div id="map" style="height: 250px">
-        <script src="assets/js/mapping/map.js" type="text/javascript"></script>
+
+
+    <div id="map" style="height: 350px">
+        <script src="assets/js/mapping/map_deployed.js" type="text/javascript"></script>
     </div>
+
 @stop
 @endif
 @endif
@@ -63,12 +66,9 @@
     <div class="col-md-12">
         <a href="{{ route('create/hardware') }}" class="btn btn-success pull-right"><i class="fa fa-plus icon-white"></i> @lang('general.create')</a>
         <h3>@yield('title0')
-
              @if (Input::has('order_number'))
                   - Order {{{ Input::get('order_number') }}}
              @endif
-
-
        </h3>
     </div>
 </div>
@@ -109,11 +109,11 @@
                 <th data-sortable="true" data-field="status">@lang('admin/hardware/table.status')</th>
                 <th data-sortable="true" data-field="location" data-searchable="true">@lang('admin/hardware/table.location')</th>
                 <th data-sortable="true" data-field="category" data-searchable="true">@lang('general.category')</th>
-                <th data-sortable="false" data-field="eol"  data-searchable="true">@lang('general.eol')</th>
+                {{--<th data-sortable="false" data-field="eol"  data-searchable="true">@lang('general.eol')</th>--}}
                 <th data-sortable="true" data-searchable="true" data-field="notes">@lang('general.notes')</th>
-                <th data-sortable="true" data-searchable="true"  data-field="order_number">@lang('admin/hardware/form.order')</th>
-                <th data-sortable="true" data-searchable="true" data-field="last_checkout">@lang('admin/hardware/table.checkout_date')</th>
-                <th data-sortable="true" data-field="expected_checkin" data-searchable="true">@lang('admin/hardware/form.expected_checkin')</th>
+{{--                <th data-sortable="true" data-searchable="true"  data-field="order_number">@lang('admin/hardware/form.order')</th>--}}
+{{--                <th data-sortable="true" data-searchable="true" data-field="last_checkout">@lang('admin/hardware/table.checkout_date')</th>--}}
+{{--                <th data-sortable="true" data-field="expected_checkin" data-searchable="true">@lang('admin/hardware/form.expected_checkin')</th>--}}
                 @foreach(CustomField::all() AS $field)
                   <th data-sortable="true" data-visible="false" data-field="{{$field->db_column_name()}}">{{{$field->name}}}</th>
                 @endforeach

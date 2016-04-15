@@ -1521,11 +1521,11 @@ class AssetsController extends AdminController
                 SELECT 'Feature' As type , ST_AsGeoJSON(lg.geom)::json As geometry , row_to_json((
                 SELECT l FROM (
                 SELECT scheme_id, scheme_name, scheme_code, scheme_type, village_name, village_code, tehsil_name, tehsil_code, scheme_status, division, district,
-                coalesce((SELECT COUNT(*) From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code GROUP BY b.scheme_code), 0) as count,
+                coalesce((SELECT COUNT(*) From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code and a.assigned_to is NOT NULL and a.deleted_at is NULL GROUP BY b.scheme_code), 0) as count,
 
                 (
                 SELECT array_agg(aname) As assets From
-                    (SELECT a.name From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code and a.assigned_to > 0) as aname))
+                    (SELECT a.name From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code) as aname))
                 As l )) As properties
                 FROM public.tbl_schemes As lg where lg.geom != '' ) As f ) fc";
 // -- put the condition for assets table whare assign user > 0
