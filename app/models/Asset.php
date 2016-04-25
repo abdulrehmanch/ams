@@ -544,6 +544,12 @@ return false;
             return $query->where( 'assigned_to', '>', '0' );
         }
 
+        public function scopeDeployedAT( $query , $loc)
+        {
+
+            return $query->where( 'rtd_location_id', '=', $loc );
+        }
+
         /**
          * Query builder scope for Requestable assets
          *

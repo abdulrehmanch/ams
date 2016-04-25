@@ -65,11 +65,11 @@ return array(
 
         'pgsql' => array(
             'driver'   => 'pgsql',
-            'host'     => 'localhost',
-            'port'      => '5435',
-            'database' => 'db_saafpani',
+            'host'     => '192.168.1.40',
+            'port'      => '5432',
+            'database' => 'saafpani_ams',
             'username' => 'postgres',
-            'password' => 'abcd1234',
+            'password' => 'irispgis',
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'ams',
@@ -77,11 +77,11 @@ return array(
 
         'pspc' => array(
             'driver'   => 'pgsql',
-            'host'     => 'localhost',
-			'port'      => '5435',
-            'database' => 'db_saafpani',
+            'host'     => '192.168.1.40',
+			'port'      => '5432',
+            'database' => 'saafpani_ams',
             'username' => 'postgres',
-            'password' => 'abcd1234',
+            'password' => 'irispgis',
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',

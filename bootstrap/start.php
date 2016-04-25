@@ -32,6 +32,7 @@
 
         $env = $app->detectEnvironment(array(
             'local' => array('ABDULREHMAN'),
+            'production' => array('GISServer-008')
             ));
     /*
     |--------------------------------------------------------------------------

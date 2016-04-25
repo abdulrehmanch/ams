@@ -1364,30 +1364,38 @@ class AssetsController extends AdminController
        if (Input::has('order_number')) {
            $assets->where('order_number','=',e(Input::get('order_number')));
        }
+//         get second input for deployed at
+        if (Input::has('location_id')){
+            $loc = Input::get('location_id');
+        }
 
       switch ($status) {
-      case 'Deleted':
-        $assets->withTrashed()->Deleted();
-        break;
-      case 'Pending':
-      	$assets->Pending();
-      	break;
-      case 'RTD':
-      	$assets->RTD();
-      	break;
-      case 'Undeployable':
-      	$assets->Undeployable();
-      	break;
-      case 'Archived':
-      	$assets->Archived();
-      	break;
-      case 'Requestable':
-      	$assets->RequestableAssets();
-      	break;
-      case 'Deployed':
-      	$assets->Deployed();
-      	break;
 
+          case 'Deleted':
+            $assets->withTrashed()->Deleted();
+            break;
+          case 'Pending':
+            $assets->Pending();
+            break;
+          case 'RTD':
+            $assets->RTD();
+            break;
+          case 'Undeployable':
+            $assets->Undeployable();
+            break;
+          case 'Archived':
+            $assets->Archived();
+            break;
+          case 'Requestable':
+            $assets->RequestableAssets();
+            break;
+          case 'Deployed':
+            $assets->Deployed();
+            break;
+
+          case 'DeployedAT':
+              $assets->DeployedAT($loc);
+              break;
       }
 
     $allowed_columns = [

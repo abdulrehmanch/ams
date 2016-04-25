@@ -29,30 +29,30 @@
     @yield('title0') :: @parent
 @stop
 @if (Input::get('status'))
-@if (Input::get('status')=='Deployed')
+@if (Input::get('status')=='DeployedAT')
     @section('map-content')
 
             <!-- Mapping -->
     <link rel="stylesheet" href="assets/css/mapping/leaflet.css" />
-    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
     <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
     <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
     <link rel="stylesheet" href="assets/css/mapping/leaflet.label.css" />
+    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
 
     <!-- Load Leaflet from CDN-->
     <script src="assets/js/mapping/leaflet.js"></script>
     <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
     <script src="assets/js/mapping/Leaflet.NavBar.js" type="text/javascript"></script>
     <script src="assets/js/mapping/styledLayerControl.js"></script>
-    <script src="assets/js/mapping/Google.js" type="text/javascript"></script>
+    <script src="assets/js/mapping/leaflet-google.js" type="text/javascript"></script>
     <script src="assets/js/mapping/leaflet.label.js"></script>
     <!-- Load Esri Leaflet from CDN -->
     <script src="assets/js/mapping/esri-leaflet.js"></script>
     <!-- Mapping END -->
 
 
-    <div id="map" style="height: 350px">
-        <script src="assets/js/mapping/map_deployed.js" type="text/javascript"></script>
+    <div id="map" style="height: 500px">
+        <script src="assets/js/mapping/map_assets.js" type="text/javascript"></script>
     </div>
 
 @stop

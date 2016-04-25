@@ -11,10 +11,10 @@
 
      <!-- Mapping -->
     <link rel="stylesheet" href="assets/css/mapping/leaflet.css" />
-    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
     <link rel="stylesheet" href="assets/css/mapping/Leaflet.NavBar.css" />
     <link rel="stylesheet" href="assets/css/mapping/styledLayerControl.css" />
     <link rel="stylesheet" href="assets/css/mapping/leaflet.label.css" />
+    <link rel="stylesheet" href="assets/css/mapping/leafletmap.css" />
 
     <!-- Load Leaflet from CDN-->
     <script src="assets/js/mapping/leaflet.js"></script>

@@ -9,7 +9,7 @@ var map = new L.Map('map', {
 map.addControl(new L.Control.Zoom({
     position: 'topleft'
 }));
-//L.control.navbar().addTo(map);
+L.control.navbar().addTo(map);
 
 
 
@@ -53,7 +53,7 @@ var gStreet = new L.Google('ROADMAP');
 map.addLayer(gTerrain);
 
 //Scheme Locations Layer
-var geoJsonData = $.getJSON('../../map/mapdata');
+var geoJsonData = $.getJSON('map/mapdata');
 //console.log(geoJsonData);
 geoJsonData.then(function(data)
 {
@@ -120,7 +120,7 @@ legend.onAdd = function (map) {
     div.innerHTML = '<div>' +
         '<h3>Legend</h3>' +
         '</div> <div class= "legend-internal">'+
-        '<img src="../../assets/js/mapping/images/marker-icon.png" alt="Location ICON" height="20" width="15">'+
+        '<img src="assets/js/mapping/images/marker-icon.png" alt="Location ICON" height="20" width="15">'+
         '<label for="img">Schemes Locations</label><br>'+
         '<h4>TDS</h4>'+
         '<i style="background:#2491C7"></i> 226 - 500<br>' +
