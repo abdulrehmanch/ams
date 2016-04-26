@@ -77,8 +77,10 @@ function onEachFeature(feature, layer) {
                 });
         }
 
-        popupContent += "Scheme Name: "+ feature.properties.scheme_name + "<br>"
-            + "No. of Assets Deplyed: "+ feature.properties.count + "<br>";
+        popupContent += "<strong>Scheme Name: </strong>"+ feature.properties.scheme_name + "<br>"
+            + "<strong>No. of Assets Deplyed: </strong>"+ feature.properties.count + "<br>"
+            +"<strong>Capacity: </strong>" + "Data Not Provided <br>"
+            +"<strong>No. of People Served: </strong>" + "Data Not Provided <br>" ;
 
         layer.bindPopup(popupContent);
     }

@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'pgsql',
 
     /*
     |--------------------------------------------------------------------------
@@ -45,21 +45,55 @@ return array(
     */
 
     'connections' => array(
+
         'sqlite' => array(
             'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => ''
+            'database' => __DIR__.'/../database/production.sqlite',
+            'prefix'   => '',
         ),
 
-        'mysql' => array(
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'snipeit_unit',
-            'username'  => 'travis',
-            'password'  => '',
-            'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
+        'mysql'=> array(
+            'driver'   => 'mysql',
+            'host'     => 'localhost',
+            'database' => 'db_ams',
+            'username' => 'root',
+            'password' => 'abcd1234',
+            'charset'  => 'utf8',
+            'collation'=> 'utf8_unicode_ci',
+            'prefix'   => '',
+        ),
+
+        'pgsql' => array(
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'port'      => '5435',
+            'database' => 'db_saafpani',
+            'username' => 'postgres',
+            'password' => 'abcd1234',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'ams',
+        ),
+
+        'pspc' => array(
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'port'      => '5435',
+            'database' => 'db_saafpani',
+            'username' => 'postgres',
+            'password' => 'abcd1234',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'public',
+        ),
+
+        'sqlsrv' => array(
+            'driver'   => 'sqlsrv',
+            'host'     => 'localhost',
+            'database' => 'database',
+            'username' => 'root',
+            'password' => '',
+            'prefix'   => '',
         ),
 
     ),

@@ -546,8 +546,16 @@ return false;
 
         public function scopeDeployedAT( $query , $loc)
         {
+            if ($loc){
+                return $query
+                    ->where( 'rtd_location_id', '=', $loc )
+                    ->where('assigned_to', '>', '0');
+            }
+            else {
+                return $query->where('assigned_to', '>', '0');
+            }
 
-            return $query->where( 'rtd_location_id', '=', $loc );
+
         }
 
         /**

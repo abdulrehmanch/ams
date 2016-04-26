@@ -64,7 +64,7 @@ class AssetsController extends AdminController
     {
         // Grab the dropdown lists
         $model_list = modelList();
-        Debugbar::info($model_list);
+//        Debugbar::info($model_list);
         $statuslabel_list = statusLabelList();
         $location_list = locationsList_pg();
         // Debugbar::info(saveNewLocation('02-09-031-0030-05'));
@@ -1332,7 +1332,7 @@ class AssetsController extends AdminController
 
 
 
-    public function getDatatable($status = null)
+    public function getDatatable($status = null, $schemeLoc = null)
     {
 
        $assets = Asset::select('assets.*')
@@ -1365,8 +1365,8 @@ class AssetsController extends AdminController
            $assets->where('order_number','=',e(Input::get('order_number')));
        }
 //         get second input for deployed at
-        if (Input::has('location_id')){
-            $loc = Input::get('location_id');
+        if (Input::has('schemeLoc')){
+            $schemeLoc = e(Input::get('schemeLoc'));
         }
 
       switch ($status) {
@@ -1394,7 +1394,7 @@ class AssetsController extends AdminController
             break;
 
           case 'DeployedAT':
-              $assets->DeployedAT($loc);
+              $assets->DeployedAT(Input::get('schemeLoc'));
               break;
       }
 

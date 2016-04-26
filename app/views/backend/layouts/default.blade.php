@@ -322,6 +322,7 @@
                         <li><a href="{{ URL::to('hardware?status=Undeployable') }}" {{ (Request::query('status') == 'Undeployable' ? ' class="active"' : '') }} >@lang('general.undeployable')</a></li>
                         <li><a href="{{ URL::to('hardware?status=Archived') }}" {{ (Request::query('status') == 'Archived' ? ' class="active"' : '') }} >@lang('admin/hardware/general.archived')</a></li>
                         <li><a href="{{ URL::to('hardware?status=Requestable') }}" {{ (Request::query('status') == 'Requestable' ? ' class="active"' : '') }} >@lang('admin/hardware/general.requestable')</a></li>
+                        <li><a href="{{ URL::to('hardware?status=DeployedAT') }}" {{ (Request::query('status') == 'DeployedAT' ? ' class="active"' : '') }} >Deployed At</a></li>
 
                         <li><a href="{{ URL::to('hardware') }}">@lang('general.list_all')</a></li>
 

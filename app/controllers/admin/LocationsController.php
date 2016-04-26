@@ -355,7 +355,7 @@ class LocationsController extends AdminController
             $rows[] = array(
                 'id'            => $location->id,
 //                'name'          => link_to('admin/settings/locations/'.$location->id.'/view', $location->name),
-                'name'          => link_to('hardware?status=DeployedAT&location_id='.$location->id, $location->name),
+                'name'          => link_to('hardware?status=DeployedAT&schemeLoc='.$location->id, $location->name),
                 'parent'        => ($location->parent) ? $location->parent->name : '',
               //  'assets'        => ($location->assets->count() + $location->assignedassets->count()),
                 'assets_default' => $location->assignedassets->count(),
