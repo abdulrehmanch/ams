@@ -19,9 +19,11 @@ if(!function_exists("ParseFloat")) {
 
 function modelList() {
     $model_list = array('' => Lang::get('general.select_model')) + DB::table('models')
-    ->select(DB::raw('IF (modelno="" OR modelno IS NULL,name,concat(name, " / ",modelno)) as name, id'))
+    ->select(DB::raw("concat(name, modelno) as name, id"))
     ->orderBy('name', 'asc')
+//    ->where('modelno','=','')//test it again
     ->whereNull('deleted_at')
+    ->orWhereNull('modelno')
     ->lists('name', 'id');
     return $model_list;
 }
@@ -61,6 +63,51 @@ function locationsList() {
     return $location_list;
 }
 
+function locationsList_pg() {
+    // Config::set('database.fetch', PDO::FETCH_ASSOC);
+    $location = DB::connection('pspc')->select('SELECT scheme_name ,  scheme_code as id from public.tbl_schemes');
+    $location_list = array('' => Lang::get('general.select_location'));
+    foreach ($location as $loc) {
+        $location_list[$loc->id] = $loc->scheme_name;
+    }
+    return $location_list;
+}
+
+function saveNewLocation($scheme_code){
+    // check wither the sceme_code exists it location
+    if (Location::where('scheme_code', '=', $scheme_code)->exists()){
+
+        $location = Location::where('scheme_code', '=', $scheme_code)->firstOrFail();
+
+        return $location->id;
+
+    }
+
+    else {
+
+        $sql = "SELECT scheme_name, scheme_code, village_name, tehsil_name, district, latitude, longitude from basemap.saafpani_schemes WHERE scheme_code = '" .$scheme_code. "' limit 1";
+        $pgLocation = DB::connection('pspc')->select($sql);
+
+        $saveLocation = new Location();
+        $saveLocation->name = $pgLocation[0]->scheme_name;
+        $saveLocation->address = $pgLocation[0]->village_name;
+        $saveLocation->city = $pgLocation[0]->tehsil_name;
+        $saveLocation->state = 'Punjab';
+        $saveLocation->country = 'PK';
+        $saveLocation->scheme_code = $pgLocation[0]->scheme_code;
+        $saveLocation->latitude = $pgLocation[0]->latitude;
+        $saveLocation->longitude = $pgLocation[0]->longitude;
+        $saveLocation->user_id = Sentry::getId();
+        $saveLocation->save();
+
+        $location = Location::where('scheme_code', '=', $scheme_code)->firstOrFail();
+
+        return $location->id;
+    }
+
+
+}
+
 function manufacturerList() {
     $manufacturer_list = array('' => 'Select One') + Manufacturer::orderBy('name', 'asc')
     ->lists('name', 'id');
@@ -74,7 +121,7 @@ function statusTypeList() {
 
 function managerList() {
     $manager_list = array('' => '') + DB::table('users')
-    ->select(DB::raw('concat(last_name,", ",first_name," (",username,")") as full_name, id'))
+    ->select(DB::raw("concat(last_name,', ',first_name,' (',username,')') as full_name, id"))
     ->whereNull('deleted_at', 'and')
     ->orderBy('last_name', 'asc')
     ->orderBy('first_name', 'asc')
@@ -93,7 +140,12 @@ function categoryTypeList() {
 }
 
 function usersList() {
-    $users_list = array('' => Lang::get('general.select_user')) + DB::table('users')->select(DB::raw('concat(last_name,", ",first_name," (",username,")") as full_name, id'))->whereNull('deleted_at')->orderBy('last_name', 'asc')->orderBy('first_name', 'asc')->lists('full_name', 'id');
+    $users_list = array('' => Lang::get('general.select_user')) + DB::table('users')
+            ->select(DB::raw("concat(last_name,', ',first_name,' (',username,')') as full_name, id"))
+            ->whereNull('deleted_at')
+            ->orderBy('last_name', 'asc')
+            ->orderBy('first_name', 'asc')
+            ->lists('full_name', 'id');
     return $users_list;
 }
 

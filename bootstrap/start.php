@@ -29,9 +29,13 @@
         //     'staging'    => [ 'stagingweb01' ],
         //     'production' => [ 'AbdulRehman' ]
         // ] );
+    // UIS-SERVER05
 
         $env = $app->detectEnvironment(array(
             'local' => array('ABDULREHMAN'),
+            'production' => array('UIS-SERVER05')
+            // 'production' => array('GISServer-008')
+            // 'testing' => array('UIS-SERVER05')
             ));
     /*
     |--------------------------------------------------------------------------

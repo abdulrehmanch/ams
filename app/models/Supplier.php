@@ -5,7 +5,7 @@ class Supplier extends Elegant
 	protected $dates = ['deleted_at'];
 
     protected $rules = array(
-        'name'              => 'required|alpha_space|min:3|max:255|unique:suppliers,name,{id}',
+        'name'              => 'required|alpha_space|min:3|max:255|unique:suppliers,name', //,{id}
         'address'           => 'alpha_space|min:3|max:50',
         'address2'          => 'alpha_space|min:2|max:50',
         'city'              => 'alpha_space|min:3|max:255',

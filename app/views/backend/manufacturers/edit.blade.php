@@ -68,15 +68,15 @@
 </div>
 
     <!-- side address column -->
-   <div class="col-md-3 col-xs-12 address pull-right">
-        <br /><br />
-        <h6>Have Some Haiku</h6>
-        <p>Serious error.<br>
-        All shortcuts have disappeared.<br>
-        Screen. Mind. Both are blank.</p>
+   {{--<div class="col-md-3 col-xs-12 address pull-right">--}}
+        {{--<br /><br />--}}
+        {{--<h6>Have Some Haiku</h6>--}}
+        {{--<p>Serious error.<br>--}}
+        {{--All shortcuts have disappeared.<br>--}}
+        {{--Screen. Mind. Both are blank.</p>--}}
 
 
-    </div>
+    {{--</div>--}}
 
 </div>
 

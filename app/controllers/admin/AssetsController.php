@@ -34,6 +34,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 use CustomField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Models;
+use Debugbar;
 
 
 class AssetsController extends AdminController
@@ -63,8 +64,11 @@ class AssetsController extends AdminController
     {
         // Grab the dropdown lists
         $model_list = modelList();
+//        Debugbar::info($model_list);
         $statuslabel_list = statusLabelList();
-        $location_list = locationsList();
+        $location_list = locationsList_pg();
+        // Debugbar::info(saveNewLocation('02-09-031-0030-05'));
+        
         $manufacturer_list = manufacturerList();
         $category_list = categoryList();
         $supplier_list = suppliersList();
@@ -109,12 +113,12 @@ class AssetsController extends AdminController
         $rules=$asset->validationRules();
         if($asset->model->fieldset)
         {
-          foreach($asset->model->fieldset->fields AS $field) {
-            $input[$field->db_column_name()]=$input['fields'][$field->db_column_name()];
-            $asset->{$field->db_column_name()}=$input[$field->db_column_name()];
-          }
-          $rules+=$asset->model->fieldset->validation_rules();
-          unset($input['fields']);
+            foreach($asset->model->fieldset->fields AS $field) {
+                $input[$field->db_column_name()]=$input['fields'][$field->db_column_name()];
+                $asset->{$field->db_column_name()}=$input[$field->db_column_name()];
+            }
+            $rules+=$asset->model->fieldset->validation_rules();
+            unset($input['fields']);
         }
 
         $validator = Validator::make($input,  $rules );
@@ -174,7 +178,9 @@ class AssetsController extends AdminController
             if (e(Input::get('rtd_location_id')) == '') {
                 $asset->rtd_location_id = NULL;
             } else {
-                $asset->rtd_location_id     = e(Input::get('rtd_location_id'));
+
+               $asset->rtd_location_id = saveNewLocation(e(Input::get('rtd_location_id')));
+    
             }
 
             $checkModel = Config::get('app.url').'/api/models/'.e(Input::get('model_id')).'/check';
@@ -193,7 +199,7 @@ class AssetsController extends AdminController
             $asset->physical            		= '1';
             $asset->depreciate          		= '0';
 
-	    // Create the image (if one was chosen.)
+            // Create the image (if one was chosen.)
             if (Input::file('image')) {
                 $image = Input::file('image');
                 $file_name = str_random(25).".".$image->getClientOriginalExtension();
@@ -206,18 +212,19 @@ class AssetsController extends AdminController
 
             }
 
+//            Debugbar::info($asset);
             // Was the asset created?
             if($asset->save()) {
 
-            	if (Input::get('assigned_to')!='') {
-					$logaction = new Actionlog();
-					$logaction->asset_id = $asset->id;
-					$logaction->checkedout_to = $asset->assigned_to;
-					$logaction->asset_type = 'hardware';
-					$logaction->user_id = Sentry::getUser()->id;
-					$logaction->note = e(Input::get('note'));
-					$log = $logaction->logaction('checkout');
-				}
+                if (Input::get('assigned_to')!='') {
+                    $logaction = new Actionlog();
+                    $logaction->asset_id = $asset->id;
+                    $logaction->checkedout_to = $asset->assigned_to;
+                    $logaction->asset_type = 'hardware';
+                    $logaction->user_id = Sentry::getUser()->id;
+                    $logaction->note = e(Input::get('note'));
+                    $log = $logaction->logaction('checkout');
+                }
                 // Redirect to the asset listing page
                 return Redirect::to("hardware")->with('success', Lang::get('admin/hardware/message.create.success'));
             }
@@ -1325,12 +1332,18 @@ class AssetsController extends AdminController
 
 
 
-    public function getDatatable($status = null)
+    public function getDatatable($status = null, $schemeLoc = null)
     {
 
-
-       $assets = Asset::select('assets.*')->with('model','assigneduser','assigneduser.userloc','assetstatus','defaultLoc','assetlog','model','model.category','model.fieldset','assetstatus','assetloc', 'company')
+       $assets = Asset::select('assets.*')
+       // group
+       ->groupBy('assets.asset_tag', 'assets.id','assets.name','assets.model_id','assets.serial',
+           'assets.purchase_date','assets.purchase_cost','assets.order_number','assets.assigned_to',
+           'assets.notes','assets.image','assets.user_id','assets.created_at','assets.updated_at',
+           'assets.physical','assets.deleted_at','assets.status_id','assets.archived','assets.warranty_months','assets.depreciate')
+       ->with('model','assigneduser','assigneduser.userloc','assetstatus','defaultLoc','assetlog','model','model.category','model.fieldset','assetstatus','assetloc', 'company')
        ->Hardware();
+        
 
        if (Input::has('search')) {
              $assets = $assets->TextSearch(Input::get('search'));
@@ -1351,30 +1364,38 @@ class AssetsController extends AdminController
        if (Input::has('order_number')) {
            $assets->where('order_number','=',e(Input::get('order_number')));
        }
+//         get second input for deployed at
+        if (Input::has('schemeLoc')){
+            $schemeLoc = e(Input::get('schemeLoc'));
+        }
 
       switch ($status) {
-      case 'Deleted':
-        $assets->withTrashed()->Deleted();
-        break;
-      case 'Pending':
-      	$assets->Pending();
-      	break;
-      case 'RTD':
-      	$assets->RTD();
-      	break;
-      case 'Undeployable':
-      	$assets->Undeployable();
-      	break;
-      case 'Archived':
-      	$assets->Archived();
-      	break;
-      case 'Requestable':
-      	$assets->RequestableAssets();
-      	break;
-      case 'Deployed':
-      	$assets->Deployed();
-      	break;
 
+          case 'Deleted':
+            $assets->withTrashed()->Deleted();
+            break;
+          case 'Pending':
+            $assets->Pending();
+            break;
+          case 'RTD':
+            $assets->RTD();
+            break;
+          case 'Undeployable':
+            $assets->Undeployable();
+            break;
+          case 'Archived':
+            $assets->Archived();
+            break;
+          case 'Requestable':
+            $assets->RequestableAssets();
+            break;
+          case 'Deployed':
+            $assets->Deployed();
+            break;
+
+          case 'DeployedAT':
+              $assets->DeployedAT(Input::get('schemeLoc'));
+              break;
       }
 
     $allowed_columns = [
@@ -1428,8 +1449,13 @@ class AssetsController extends AdminController
      $assets = $assets->skip($offset)->take($limit)->get();
 
 
+     // Debugbar::info();
+
+     // return $location->longitude;
+
       $rows = array();
       foreach ($assets as $asset) {
+          $location = Location::where('id', '=', $asset->rtd_location_id)->firstOrFail();
         $inout = '';
         $actions = '';
         if ($asset->deleted_at=='') {
@@ -1457,7 +1483,13 @@ class AssetsController extends AdminController
             'serial'        => $asset->serial,
             'model'         => ($asset->model) ? link_to('/hardware/models/'.$asset->model->id.'/view', $asset->model->name) : 'No model',
             'status'        => ($asset->assigneduser) ? link_to('../admin/users/'.$asset->assigned_to.'/view', $asset->assigneduser->fullName()) : (($asset->assetstatus) ? $asset->assetstatus->name : ''),
-            'location'      => (($asset->assigneduser) && ($asset->assigneduser->userloc!='')) ? link_to('admin/settings/locations/'.$asset->assigneduser->userloc->id.'/edit', $asset->assigneduser->userloc->name) : (($asset->defaultLoc!='') ? link_to('admin/settings/locations/'.$asset->defaultLoc->id.'/edit', $asset->defaultLoc->name) : ''),
+            // Location of Asset
+
+            // 'location'      => (($asset->assigneduser) && ($asset->assigneduser->userloc!='')) ? link_to('admin/settings/locations/'.$asset->assigneduser->userloc->id.'/edit', $asset->assigneduser->userloc->name) : (($asset->defaultLoc!='') ? link_to('admin/settings/locations/'.$asset->defaultLoc->id.'/edit', $asset->defaultLoc->name) : ''),
+            // , $location->longitude
+            'location'      => ('<a href="#" onClick = "zoomToCoord('. $location->latitude.', '. $location->longitude.');">' . $asset->defaultLoc->name.'</a>'),
+
+
             'category'      => (($asset->model) && ($asset->model->category)) ? $asset->model->category->name : '',
             'eol'           => ($asset->eol_date()) ? $asset->eol_date() : '',
             'notes'         => $asset->notes,
@@ -1478,4 +1510,34 @@ class AssetsController extends AdminController
 
       return $data;
   }
+
+    //    map controller
+    public function getMap(){
+
+        return View::make('frontend/map');
+    }
+    # Fetch Map Data
+    public function fetchMapData(){
+
+        $count = DB::select(DB::raw("SELECT COUNT(*) as count, b.scheme_code From assets a , locations b where a.rtd_location_id = b.id GROUP BY b.scheme_code"));
+//            Response::json($count) ;
+        //return $count[0]->scheme_code;
+//        return $count;
+
+        $sql = "SELECT row_to_json(fc) FROM (
+                SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features FROM (
+                SELECT 'Feature' As type , ST_AsGeoJSON(lg.geom)::json As geometry , row_to_json((
+                SELECT l FROM (
+                SELECT scheme_id, scheme_name, scheme_code, scheme_type, village_name, village_code, tehsil_name, tehsil_code, scheme_status, division, district,
+                coalesce((SELECT COUNT(*) From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code and a.assigned_to is NOT NULL and a.deleted_at is NULL GROUP BY b.scheme_code), 0) as count,
+
+                (
+                SELECT array_agg(aname) As assets From
+                    (SELECT a.name From ams.assets a , ams.locations b where a.rtd_location_id = b.id and b.scheme_code = lg.scheme_code) as aname))
+                As l )) As properties
+                FROM public.tbl_schemes As lg where lg.geom != '' ) As f ) fc";
+// -- put the condition for assets table whare assign user > 0
+        $mapdata = DB::connection('pspc')->select($sql);
+        return $mapdata[0]->row_to_json;
+    }
 }

@@ -287,7 +287,7 @@ class UsersController extends AdminController {
             $location_list = locationsList();
             $company_list = Company::getSelectList();
             $manager_list = array('' => 'Select a User') + DB::table('users')
-                            ->select(DB::raw('concat(last_name,", ",first_name," (",email,")") as full_name, id'))
+                            ->select(DB::raw("concat(last_name,', ',first_name,' (',email,')') as full_name, id"))
                             ->whereNull('deleted_at')
                             ->where('id', '!=', $id)
                             ->orderBy('last_name', 'asc')
@@ -739,7 +739,7 @@ class UsersController extends AdminController {
             $location_list = array('' => '') + Location::lists('name', 'id');
             $company_list = Company::getSelectList();
             $manager_list = array('' => 'Select a User') + DB::table('users')
-                            ->select(DB::raw('concat(last_name,", ",first_name," (",email,")") as full_name, id'))
+                            ->select(DB::raw("concat(last_name,', ',first_name,' (',email,')') as full_name, id"))
                             ->whereNull('deleted_at')
                             ->where('id', '!=', $id)
                             ->orderBy('last_name', 'asc')
@@ -908,6 +908,8 @@ class UsersController extends AdminController {
         }
 
         $users = User::select(array('users.id','users.employee_num','users.email','users.username','users.location_id','users.manager_id','users.first_name','users.last_name','users.created_at','users.notes','users.company_id', 'users.deleted_at'))
+        // Group by clause for post gres
+        ->groupBy('users.first_name','users.id')
         ->with('assets','accessories','consumables','licenses','manager','sentryThrottle','groups','userloc','company');
         $users = Company::scopeCompanyables($users);
 

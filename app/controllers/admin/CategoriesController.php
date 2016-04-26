@@ -55,6 +55,7 @@ class CategoriesController extends AdminController
 
         $validator = Validator::make(Input::all(), $category->rules);
 
+
         if ($validator->fails())
         {
             // The given data did not pass validation
@@ -218,7 +219,8 @@ class CategoriesController extends AdminController
     public function getDatatable()
     {
         // Grab all the categories
-        $categories = Category::with('assets', 'accessories');
+        $categories = Category::with('assets', 'accessories')
+        ->groupBy('categories.created_at','categories.id');
 
         if (Input::has('search')) {
             $categories = $categories->TextSearch(e(Input::get('search')));

@@ -13,6 +13,9 @@ class Location extends Elegant
             'address'		=> 'alpha_space|min:5|max:80',
             'address2'		=> 'alpha_space|min:2|max:80',
             'zip'   		=> 'alpha_space|min:3|max:10',
+            'scheme_code'   => 'required',
+            'longitude'     => 'required',
+            'latitude'      => 'required'
         );
 
     public function users() {

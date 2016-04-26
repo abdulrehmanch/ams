@@ -73,6 +73,7 @@ class DashboardController extends AdminController
 
         return View::make('backend/dashboard')->with('asset_stats',$asset_stats)->with('recent_activity',$recent_activity);
     }
+<<<<<<< HEAD
 
 //    map controller
 
@@ -94,4 +95,6 @@ class DashboardController extends AdminController
         return Response::json($mapdata[0]);
     }
 
+=======
+>>>>>>> development
 }

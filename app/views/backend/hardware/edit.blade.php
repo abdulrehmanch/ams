@@ -307,7 +307,7 @@
 
             <!-- Default Location -->
             <div class="form-group {{ $errors->has('rtd_location_id') ? ' has-error' : '' }}">
-                <label for="rtd_location_id" class="col-md-2 control-label">@lang('admin/hardware/form.default_location')</label>
+                <label for="rtd_location_id" class="col-md-2 control-label">Select Scheme Code</label>
                     <div class="col-md-7 col-sm-12">
                         {{ Form::select('rtd_location_id', $location_list , Input::old('rtd_location_id', $asset->rtd_location_id), array('class'=>'select2', 'style'=>'width:350px','id'=>'rtd_location_select')) }}
                          <a href='#' data-toggle="modal" data-target="#createModal" data-dependency='location' data-select='rtd_location_select'><i class="verticon fa fa-plus-square-o fa-2x"></i></a>

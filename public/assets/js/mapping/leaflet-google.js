@@ -1,6 +1,7 @@
 /*
  * L.TileLayer is used for standard xyz-numbered tile layers.
  */
+
 L.Google = L.Class.extend({
 	includes: L.Mixin.Events,
 

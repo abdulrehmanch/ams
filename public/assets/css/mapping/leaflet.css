@@ -476,10 +476,3 @@
 	background: #fff;
 	border: 1px solid #666;
 	}
-.leaflet-map-pane {
-    z-index: 2 !important;
-}
-
-.leaflet-google-layer {
-    z-index: 1 !important;
-}

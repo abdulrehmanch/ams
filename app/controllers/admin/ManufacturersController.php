@@ -192,7 +192,9 @@ class ManufacturersController extends AdminController
 
     public function getDatatable()
     {
-        $manufacturers = Manufacturer::select(array('id','name'))->with('assets')
+        $manufacturers = Manufacturer::select(array('id','name'))
+        ->groupBy('manufacturers.created_at','manufacturers.id' )
+        ->with('assets')
         ->whereNull('deleted_at');
 
         if (Input::has('search')) {

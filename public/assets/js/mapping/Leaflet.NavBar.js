@@ -61,7 +61,7 @@
         var view = this._viewHistory[this._curIndx];
         this._map.setView(view.center,view.zoom);
 
-        console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
+        // console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
       }
     },
 
@@ -74,7 +74,7 @@
         var view = this._viewHistory[this._curIndx];
         this._map.setView(view.center,view.zoom);
 
-        console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
+        // console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
       }
     },
 
@@ -103,7 +103,7 @@
       // Update disabled state of toolbar buttons
       this._updateDisabled();
 
-      console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
+      // console.log(this._curIndx + "|" + JSON.stringify(this._viewHistory));
     },
 
     _setFwdEnabled:function(enabled){

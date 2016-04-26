@@ -236,7 +236,7 @@ class GroupsController extends AdminController
         }
 
         // Grab all the groups
-        $groups = Sentry::getGroupProvider()->createModel();
+        $groups = Sentry::getGroupProvider()->createModel()->groupBy('groups.name', 'groups.id');
         //$users = Company::scopeCompanyables($users);
 
          if (Input::has('search')) {

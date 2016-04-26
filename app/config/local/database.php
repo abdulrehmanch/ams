@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'default' => 'mysql',
+    'default' => 'pgsql',
 
     /*
     |--------------------------------------------------------------------------
@@ -57,7 +57,7 @@ return array(
             'host'     => 'localhost',
             'database' => 'db_ams',
             'username' => 'root',
-            'password' => '',
+            'password' => '123',
             'charset'  => 'utf8',
             'collation'=> 'utf8_unicode_ci',
             'prefix'   => '',
@@ -66,7 +66,18 @@ return array(
         'pgsql' => array(
             'driver'   => 'pgsql',
             'host'     => 'localhost',
-            'database' => 'db_ams',
+            'database' => 'db_saafpani',
+            'username' => 'postgres',
+            'password' => '123',
+            'charset'  => 'utf8',
+            'prefix'   => '',
+            'schema'   => 'ams',
+        ),
+
+        'pspc' => array(
+            'driver'   => 'pgsql',
+            'host'     => 'localhost',
+            'database' => 'db_saafpani',
             'username' => 'postgres',
             'password' => '123',
             'charset'  => 'utf8',

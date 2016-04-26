@@ -56,6 +56,7 @@
      public function getDatatable()
      {
         $maintenances = AssetMaintenance::with('asset','supplier','asset.company')
+        ->groupBy('asset_maintenances.created_at', 'asset_maintenances.id')
          ->whereNull('deleted_at');
 
          if (Input::has('search')) {
@@ -82,6 +83,7 @@
 
          $maintenancesCount = $maintenances->count();
          $maintenances = $maintenances->skip($offset)->take($limit)->get();
+
 
          $rows = array();
          $settings = Setting::getSettings();
@@ -138,11 +140,12 @@
             // Mark the selected asset, if it came in
             $selectedAsset = $assetId;
             // Get the possible assets using a left join to get a list of assets and some other helpful info
-            $asset               = Company::scopeCompanyables( DB::table( 'assets' ), 'assets.company_id' )
+            $asset               = Company::scopeCompanyables( 
+                DB::table( 'assets' ), 'assets.company_id' )
                                      ->leftJoin( 'users', 'users.id', '=', 'assets.assigned_to' )
                                      ->leftJoin( 'models', 'assets.model_id', '=', 'models.id' )
                                      ->select( 'assets.id', 'assets.name', 'first_name', 'last_name', 'asset_tag',
-                                         DB::raw( 'concat(first_name," ",last_name) as full_name, assets.id as id, models.name as modelname' ) )
+                                         DB::raw( "concat(first_name,' ',last_name) as full_name, assets.id as id, models.name as modelname" ) )
                                      ->whereNull( 'assets.deleted_at' )
                                      ->get();
             $asset_array         = json_decode( json_encode( $asset ), true );
@@ -309,7 +312,7 @@
                                      ->leftJoin( 'users', 'users.id', '=', 'assets.assigned_to' )
                                      ->leftJoin( 'models', 'assets.model_id', '=', 'models.id' )
                                      ->select( 'assets.id', 'assets.name', 'first_name', 'last_name', 'asset_tag',
-                                         DB::raw( 'concat(first_name," ",last_name) as full_name, assets.id as id, models.name as modelname' ) )
+                                         DB::raw( "concat(first_name,' ',last_name) as full_name, assets.id as id, models.name as modelname" ) )
                                      ->whereNull( 'assets.deleted_at' )
                                      ->get();
             $asset_array         = json_decode( json_encode( $asset ), true );

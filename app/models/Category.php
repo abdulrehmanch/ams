@@ -11,7 +11,7 @@ class Category extends Elegant
     */
     public $rules = array(
         'user_id' => 'numeric',
-        'name'   => 'required|alpha_space|min:3|max:255|unique:categories,name,{id},id,deleted_at,NULL',
+        'name'   => 'required|alpha_space|min:3|max:255|unique:categories,name,0,id,deleted_at,NULL',//,{id} replaced with 0
         'category_type'   => 'required',
     );
 

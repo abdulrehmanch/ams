@@ -12,6 +12,7 @@ use Sentry;
 use Str;
 use Validator;
 use View;
+use Debugbar;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -87,6 +88,7 @@ class SuppliersController extends AdminController
                 })->save($path);
                 $supplier->image = $file_name;
             }
+            Debugbar::info('at 91');
 
             // Was it created?
             if($supplier->save()) {
@@ -267,6 +269,7 @@ class SuppliersController extends AdminController
     public function getDatatable()
     {
         $suppliers = Supplier::select(array('id','name','address','address2','city','state','country','fax', 'phone','email','contact'))
+        ->groupBy('suppliers.created_at', 'suppliers.id')
         ->whereNull('deleted_at');
 
         if (Input::has('search')) {

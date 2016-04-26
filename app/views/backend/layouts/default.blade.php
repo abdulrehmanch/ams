@@ -42,9 +42,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/compiled/print.css') }}" media="print" />
     <link href="{{ asset('assets/css/bootstrap/bootstrap-overrides.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('assets/css/menu.css') }}" type="text/css" rel="stylesheet" />
-
-
-    <!-- global header javascripts -->
+    
+        <!-- global header javascripts -->
     <script src="{{ asset('assets/js/jquery-latest.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 
@@ -109,7 +108,7 @@
             <!-- navbar -->
     <header class="navbar navbar-inverse" role="banner">
         <a target="_blank" href="">
-            <img style="width: 100%;" src="/assets/img/Saaf-Pani-Asset-Banner.png">
+            <img style="width: 100%;" src="{{ asset('assets/img/Saaf-Pani-Asset-Banner.png')}}">
         </a>
 
         <div class="navbar-header">
@@ -153,21 +152,25 @@
                                     <i class="fa fa-barcode fa-fw"></i>
                                     @lang('general.asset')</a>
                             </li>
+                            <!--
                             <li {{{ (Request::is('admin/licenses/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/licenses') }}">
                                     <i class="fa fa-certificate fa-fw"></i>
                                     @lang('general.license')</a>
-                            </li>
+                            </li> -->
+                            <!--
                             <li {{{ (Request::is('admin/accessories/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/accessory') }}">
                                     <i class="fa fa-keyboard-o fa-fw"></i>
                                     @lang('general.accessory')</a>
-                            </li>
+                            </li> -->
+                            <!--
                             <li {{{ (Request::is('admin/consumables/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/consumable') }}">
                                     <i class="fa fa-tint fa-fw"></i>
                                     @lang('general.consumable')</a>
                             </li>
+                            -->
                             <li {{{ (Request::is('admin/users/create') ? 'class="active"' : '') }}}>
                                 <a href="{{ route('create/user') }}">
                                     <i class="fa fa-user fa-fw"></i>
@@ -242,11 +245,11 @@
                                     <i class="fa fa-list fa-fw"></i> @lang('general.status_labels')
                                 </a>
                             </li>
-                            <li{{ (Request::is('admin/settings/depreciations*') ? ' class="active"' : '') }}>
-                                <a href="{{ URL::to('admin/settings/depreciations') }}">
-                                    <i class="fa fa-arrow-down fa-fw"></i> @lang('general.depreciation')
-                                </a>
-                            </li>
+                            {{--<li{{ (Request::is('admin/settings/depreciations*') ? ' class="active"' : '') }}>--}}
+                                {{--<a href="{{ URL::to('admin/settings/depreciations') }}">--}}
+                                    {{--<i class="fa fa-arrow-down fa-fw"></i> @lang('general.depreciation')--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
                             <li{{ (Request::is('admin/settings/locations*') ? ' class="active"' : '') }}>
                                 <a href="{{ URL::to('admin/settings/locations') }}">
                                     <i class="fa fa-globe fa-fw"></i> @lang('general.locations')
@@ -268,11 +271,11 @@
                                 </a>
                             </li>
                             <li class="divider"></li>
-                            <li>
-                                <a href="{{ route('app') }}">
-                                    <i class="fa fa-cog fa-fw"></i> @lang('general.settings')
-                                </a>
-                            </li>
+                            {{--<li>--}}
+                                {{--<a href="{{ route('app') }}">--}}
+                                    {{--<i class="fa fa-cog fa-fw"></i> @lang('general.settings')--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
 
                         </ul>
                     </li>
@@ -298,6 +301,14 @@
 
                     <li{{ (Request::is('dashboard') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
                     <a href="{{Config::get('app.url')}}/dashboard"><i class="fa fa-dashboard"></i><span>@lang('general.dashboard')</span></a>
+<<<<<<< HEAD
+=======
+                    </li>
+
+                    {{--Schemes--}}
+                    <li {{ (Request::is('admin/settings/locations*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                    <a href="{{URL::to('admin/settings/locations') }}"><i class="fa fa-globe"></i><span>Schemes</span></a>
+>>>>>>> development
                     </li>
 
                     <li{{ (Request::is('hardware*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
@@ -314,6 +325,7 @@
                         <li><a href="{{ URL::to('hardware?status=Undeployable') }}" {{ (Request::query('status') == 'Undeployable' ? ' class="active"' : '') }} >@lang('general.undeployable')</a></li>
                         <li><a href="{{ URL::to('hardware?status=Archived') }}" {{ (Request::query('status') == 'Archived' ? ' class="active"' : '') }} >@lang('admin/hardware/general.archived')</a></li>
                         <li><a href="{{ URL::to('hardware?status=Requestable') }}" {{ (Request::query('status') == 'Requestable' ? ' class="active"' : '') }} >@lang('admin/hardware/general.requestable')</a></li>
+                        <li><a href="{{ URL::to('hardware?status=DeployedAT') }}" {{ (Request::query('status') == 'DeployedAT' ? ' class="active"' : '') }} >Deployed At</a></li>
 
                         <li><a href="{{ URL::to('hardware') }}">@lang('general.list_all')</a></li>
 
@@ -325,35 +337,36 @@
                         <li><a href="{{ URL::to('hardware/import') }}"  >@lang('general.import') </a></li>
                     </ul>
                     </li>
-                    <li{{ (Request::is('admin/accessories*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/accessories') }}">
-                        <i class="fa fa-keyboard-o"></i>
-                        <span>@lang('general.accessories')</span>
-                    </a>
-                    </li>
-                    <li{{ (Request::is('admin/consumables*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/consumables') }}">
-                        <i class="fa fa-tint"></i>
-                        <span>@lang('general.consumables')</span>
-                    </a>
-                    </li>
+                    <!-- <li{{ (Request::is('admin/accessories*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                        <a href="{{ URL::to('admin/accessories') }}">
+                            <i class="fa fa-keyboard-o"></i>
+                            <span>@lang('general.accessories')</span>
+                        </a>
+                    </li> -->
+                {{--Licences and Consumables--}}
+                    {{--<li{{ (Request::is('admin/consumables*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}--}}
+                    {{--<a href="{{ URL::to('admin/consumables') }}">--}}
+                        {{--<i class="fa fa-tint"></i>--}}
+                        {{--<span>@lang('general.consumables')</span>--}}
+                    {{--</a>--}}
+                    {{--</li>--}}
 
 
-                    <li{{ (Request::is('admin/licenses*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/licenses') }}"  >
-                        <i class="fa fa-certificate"></i>
-                        <span>@lang('general.licenses')</span>
+                    {{--<li{{ (Request::is('admin/licenses*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}--}}
+                    {{--<a href="{{ URL::to('admin/licenses') }}"  >--}}
+                        {{--<i class="fa fa-certificate"></i>--}}
+                        {{--<span>@lang('general.licenses')</span>--}}
 
-                    </a>
+                    {{--</a>--}}
 
-                    </li>
+                    {{--</li>--}}
 
-                    <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
-                    <a href="{{ URL::to('admin/users') }}">
-                        <i class="fa fa-users"></i>
-                        <span>@lang('general.people')</span>
-                    </a>
-                    </li>
+                     <li{{ (Request::is('admin/users*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
+                        <a href="{{ URL::to('admin/users') }}">
+                            <i class="fa fa-users"></i>
+                            <span>@lang('general.people')</span>
+                        </a>
+                    </li> 
                 @endif
                 @if(Sentry::getUser()->hasAccess('reports'))
                     <li{{ (Request::is('reports*') ? ' class="active"><div class="pointer"><div class="arrow"></div><div class="arrow_border"></div></div>' : '>') }}
