@@ -1,3 +1,5 @@
 .idea
 app/storage/*
 app/storage/views
+app/storage/sessions
+app/storage/debugbar
