@@ -107,9 +107,9 @@
 
             <!-- navbar -->
     <header class="navbar navbar-inverse" role="banner">
-        <a target="_blank" href="">
+        <!-- <a target="_blank" href="">
             <img style="width: 100%;" src="{{ asset('assets/img/Saaf-Pani-Asset-Banner.png')}}">
-        </a>
+        </a> -->
 
         <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" id="menu-toggler">
