@@ -130,28 +130,28 @@ legend.onAdd = function (map) {
         '<i style="background:#FAFA63"></i> 1000 - 1500<br>' +
         '<i style="background:#FA8D33"></i> 1500 - 2000<br>' +
         '<i style="background:#E80712"></i> 2000 - 2930<br>' +
-        '<h4>Nitrite</h4>' +
-        '<i style="background:#2491C7"></i> <=10<br>' +
-        '<i style="background:#A0C29C"></i> 10 - 15<br>' +
-        '<i style="background:#FAFA63"></i> 15 - 20<br>' +
-        '<i style="background:#FA8D33"></i> 20 - 25<br>' +
-        '<i style="background:#E80712"></i> >25<br>' +
-        '<h4>Iron</h4>' +
-        '<i style="background:#2491C7"></i> <=0.02<br>' +
-        '<i style="background:#BFD389"></i> 0.02 - 0.1<br>' +
-        '<i style="background:#FDB445"></i> 0.1 - 0.3<br>' +
-        '<i style="background:#E81212"></i> >0.3<br>' +
-        '<h4>Flouride</h4>' +
-        '<i style="background:#2491C7"></i> 20–50<br>' +
-        '<i style="background:#BFD389"></i> 20–50<br>' +
-        '<i style="background:#FDB445"></i> 20–50<br>' +
-        '<i style="background:#E81212"></i> 20–50<br>' +
-        '<h4>Arsenic</h4>' +
-        '<i style="background:#2491C7"></i> 20–50<br>' +
-        '<i style="background:#BFD389"></i> 20–50<br>' +
-        '<i style="background:#FDB445"></i> 20–50<br>' +
-        '<i style="background:#E81212"></i> 20–50<br>' +
-        '</div>';
+        '<h4>Nitrite (mg/l)</h4>' +
+            '<i style="background:#2491C7"></i> <=10<br>' +
+            '<i style="background:#A0C29C"></i> 10 - 15<br>' +
+            '<i style="background:#FAFA63"></i> 15 - 20<br>' +
+            '<i style="background:#FA8D33"></i> 20 - 25<br>' +
+            '<i style="background:#E80712"></i> >25<br>' +
+            '<h4>Iron (mg/l)</h4>' +
+            '<i style="background:#2491C7"></i> <=0.02<br>' +
+            '<i style="background:#BFD389"></i> 0.02 - 0.1<br>' +
+            '<i style="background:#FDB445"></i> 0.1 - 0.3<br>' +
+            '<i style="background:#E81212"></i> >0.3<br>' +
+            '<h4>Flouride (mg/l)</h4>' +
+            '<i style="background:#2491C7"></i> <=0.5<br>' +
+            '<i style="background:#BFD389"></i> 0.5-1<br>' +
+            '<i style="background:#FDB445"></i> 1-1.5<br>' +
+            '<i style="background:#E81212"></i> >1.5<br>' +
+            '<h4>Arsenic (mg/l)</h4>' +
+            '<i style="background:#2491C7"></i> <=0.5<br>' +
+            '<i style="background:#BFD389"></i> 0.5-1<br>' +
+            '<i style="background:#FDB445"></i> 1-1.5<br>' +
+            '<i style="background:#E81212"></i> >1.5<br>' +
+            '</div>';
 
     return div;
 };
